@@ -1,24 +1,31 @@
-import logo from './logo.svg';
+import React from 'react';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import ChooseBackground from './pages/ChooseBackground/ChooseBackground';
+import TypeOfCar from './pages/TypeOfCar/TypeOfCar';
 import './App.css';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#8B0000', // Dark red
+    },
+    secondary: {
+      main: '#FF6347', // Light red
+    },
+  },
+});
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <Router>
+        <Routes>
+          <Route path="/" element={<ChooseBackground />} />
+          <Route path="/type-of-car" element={<TypeOfCar />} />
+        </Routes>
+      </Router>
+    </ThemeProvider>
   );
 }
 
