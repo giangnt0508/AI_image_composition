@@ -8,8 +8,8 @@ function Layout({ children }) {
     <div className="layout">
       <img src={logo} alt="ISUZU LIFESTYLE" className="logo" />
       {children}
-      <div className="decorative-elements">
-        <img src={imageBackground} alt="Isuzu car" className="car-image" />
+      <div className="background-image">
+        <img src={imageBackground} alt="Isuzu background" />
       </div>
     </div>
   );

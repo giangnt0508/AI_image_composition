@@ -3,6 +3,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ChooseBackground from './pages/ChooseBackground/ChooseBackground';
 import TypeOfCar from './pages/TypeOfCar/TypeOfCar';
+import Layout from './components/Layout';
 import './App.css';
 
 const theme = createTheme({
@@ -20,10 +21,12 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Router>
+      <Layout>
         <Routes>
           <Route path="/" element={<ChooseBackground />} />
           <Route path="/type-of-car" element={<TypeOfCar />} />
-        </Routes>
+          </Routes>
+        </Layout>
       </Router>
     </ThemeProvider>
   );
