@@ -18,21 +18,29 @@ function TypeOfCar() {
     navigate('/');
   };
 
-  const handleCapture = () => {
+  const handleCapture = async () => {
     if (isWebcamOpen) {
       const imageSrc = webcamRef.current.getScreenshot();
-      // Convert base64 to blob
-      const byteString = atob(imageSrc.split(',')[1]);
-      const mimeString = imageSrc.split(',')[0].split(':')[1].split(';')[0];
-      const ab = new ArrayBuffer(byteString.length);
-      const ia = new Uint8Array(ab);
-      for (let i = 0; i < byteString.length; i++) {
-        ia[i] = byteString.charCodeAt(i);
-      }
-      const blob = new Blob([ab], { type: mimeString });
-      const localImageUrl = URL.createObjectURL(blob);
+      
+      try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/save-image`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ base64: imageSrc }),
+        });
 
-      navigate('/qr', { state: { takeImage: localImageUrl, background: backgroundImage } });
+        if (response.ok) {
+          const result = await response.json();
+          console.log('Image saved successfully:', result);
+          navigate('/qr', { state: { takeImage: result.url, background: backgroundImage } });
+        } else {
+          console.error('Failed to save image');
+        }
+      } catch (error) {
+        console.error('Error saving image:', error);
+      }
     } else {
       setIsWebcamOpen(true);
     }
