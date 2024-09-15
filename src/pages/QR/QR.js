@@ -8,6 +8,7 @@ function QR() {
   const navigate = useNavigate();
   const location = useLocation();
   const backgroundImage = location.state?.background;
+  const takeImage = location.state?.takeImage;
 
   const handleBack = () => {
     navigate('/');
@@ -26,7 +27,7 @@ function QR() {
       <div className="image-grid-qr">
         <div>
             <div className="image-grid-item-qr">
-                <img src={backgroundImage} alt='image-original' style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src={takeImage} alt='image-original' style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
             <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '15px' }}>
                 <Button 

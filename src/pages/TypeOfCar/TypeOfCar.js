@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Button, Box } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
+import Webcam from 'react-webcam';
 import './TypeOfCar.css';
 
 function TypeOfCar() {
@@ -8,13 +9,26 @@ function TypeOfCar() {
   const location = useLocation();
   const backgroundImage = location.state?.background;
   const [selectedColor, setSelectedColor] = useState(null);
+  const [isWebcamOpen, setIsWebcamOpen] = useState(false);
+  const webcamRef = useRef(null);
 
   const handleBack = () => {
     navigate('/');
   };
 
-  const handleCapture = (selectedImage) => {
-    navigate('/qr', { state: { background: selectedImage } });
+  const handleCapture = () => {
+    if (isWebcamOpen) {
+      const imageSrc = webcamRef.current.getScreenshot();
+      console.log("imageSrc", imageSrc);
+      console.log("backgroundImage", backgroundImage);
+      navigate('/qr', { state: { takeImage: imageSrc, background: backgroundImage } });
+    } else {
+      setIsWebcamOpen(true);
+    }
+  };
+
+  const handleCloseWebcam = () => {
+    setIsWebcamOpen(false);
   };
 
   const handleColorSelect = (color) => {
@@ -55,24 +69,33 @@ function TypeOfCar() {
         ))}
       </div>
       <div className="car-image-container">
-        <img src={backgroundImage} alt="Selected background" className="background-image" />
+        {isWebcamOpen ? (
+          <Webcam
+            audio={false}
+            ref={webcamRef}
+            screenshotFormat="image/jpeg"
+            className="webcam"
+          />
+        ) : (
+          <img src={backgroundImage} alt="Selected background" className="background-image" />
+        )}
       </div>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
         <Button 
           variant="contained" 
           color="secondary" 
           className="mui-button"
-          onClick={handleBack}
+          onClick={isWebcamOpen ? handleCloseWebcam : handleBack}
         >
-          TRỞ LẠI
+          {isWebcamOpen ? 'HỦY' : 'TRỞ LẠI'}
         </Button>
         <Button 
           variant="contained" 
           color="secondary" 
           className="mui-button"
-          onClick={() => handleCapture(backgroundImage)}
+          onClick={handleCapture}
         >
-          CHỤP
+          {isWebcamOpen ? 'CHỤP' : 'MỞ CAMERA'}
         </Button>
       </Box>
     </div>
