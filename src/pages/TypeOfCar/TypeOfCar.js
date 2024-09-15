@@ -7,9 +7,10 @@ import './TypeOfCar.css';
 function TypeOfCar() {
   const navigate = useNavigate();
   const location = useLocation();
+
   const backgroundImage = location.state?.background;
   const [selectedColor, setSelectedColor] = useState(null);
-  const [isWebcamOpen, setIsWebcamOpen] = useState(false);
+  const [isWebcamOpen, setIsWebcamOpen] = useState(location.state?.openWebcam || false);
   const webcamRef = useRef(null);
 
   const handleBack = () => {
@@ -19,9 +20,18 @@ function TypeOfCar() {
   const handleCapture = () => {
     if (isWebcamOpen) {
       const imageSrc = webcamRef.current.getScreenshot();
-      console.log("imageSrc", imageSrc);
-      console.log("backgroundImage", backgroundImage);
-      navigate('/qr', { state: { takeImage: imageSrc, background: backgroundImage } });
+      // Convert base64 to blob
+      const byteString = atob(imageSrc.split(',')[1]);
+      const mimeString = imageSrc.split(',')[0].split(':')[1].split(';')[0];
+      const ab = new ArrayBuffer(byteString.length);
+      const ia = new Uint8Array(ab);
+      for (let i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+      }
+      const blob = new Blob([ab], { type: mimeString });
+      const localImageUrl = URL.createObjectURL(blob);
+
+      navigate('/qr', { state: { takeImage: localImageUrl, background: backgroundImage } });
     } else {
       setIsWebcamOpen(true);
     }
@@ -80,7 +90,7 @@ function TypeOfCar() {
           <img src={backgroundImage} alt="Selected background" className="background-image" />
         )}
       </div>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+      <Box className="grid-button">
         <Button 
           variant="contained" 
           color="secondary" 

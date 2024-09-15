@@ -9,9 +9,14 @@ function QR() {
   const location = useLocation();
   const backgroundImage = location.state?.background;
   const takeImage = location.state?.takeImage;
+  console.log("takeImage", takeImage);
 
   const handleBack = () => {
     navigate('/');
+  };
+
+  const handleTakeImageBack = () => {
+    navigate('/type-of-car', { state: { openWebcam: true, background: backgroundImage } });
   };
 
   return (
@@ -34,7 +39,7 @@ function QR() {
                     variant="contained" 
                     color="secondary" 
                     className="mui-button"
-                    onClick={handleBack}
+                    onClick={handleTakeImageBack}
                 >
                     CHỤP LẠI
                 </Button>
@@ -42,8 +47,8 @@ function QR() {
         </div>
         <div>
             <div className="image-grid-item-qr">
-                <a href={backgroundImage} download="background-image.jpg" style={{ display: 'block', width: '100%', height: '100%' }}>
-                    <QRCodeSVG value={backgroundImage} width="100%" height="100%" bgColor="#FFFFFF" fgColor="#FF0000"/>
+                <a href={takeImage} download="background-image.jpg" style={{ display: 'block', width: '100%', height: '100%' }}>
+                    <QRCodeSVG value={takeImage} width="100%" height="100%" bgColor="#FFFFFF" fgColor="#FF0000"/>
                 </a>
             </div>
             <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '15px' }}>
