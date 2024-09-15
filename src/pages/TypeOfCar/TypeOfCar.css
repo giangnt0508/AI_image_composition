@@ -19,14 +19,25 @@
   cursor: pointer;
 }
 
+.grid-button {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
 .car-image-container {
   width: 100%;
-  height: 300px;
-  position: relative;
+  max-width: 600px;
+  aspect-ratio: 16 / 12;
   overflow: hidden;
   border-radius: 8px;
-  margin-bottom: 20px;
   box-shadow: 0 0 0 3px white;
+  margin: 10px auto;
+}
+.car-image-container img,
+.car-image-container .webcam {
+  width: 100%;
+  height: 100%;
 }
 
 @media screen and (min-width: 768px) {
@@ -35,7 +46,11 @@
   }
 
   .car-image-container {
-    height: 500px;
+    height: 450px;
+  }
+
+  .grid-button {
+    width: 37%;
   }
 }
 

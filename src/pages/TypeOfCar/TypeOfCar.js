@@ -1,20 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Button, Box } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
+import Webcam from 'react-webcam';
 import './TypeOfCar.css';
 
 function TypeOfCar() {
   const navigate = useNavigate();
   const location = useLocation();
+  const webcamRef = useRef(null);
+
   const backgroundImage = location.state?.background;
+
   const [selectedColor, setSelectedColor] = useState(null);
+  const [isWebcamOpen, setIsWebcamOpen] = useState(location.state?.openWebcam || false);
 
   const handleBack = () => {
     navigate('/');
   };
 
   const handleCapture = () => {
-    console.log('Capture button clicked');
+    if (isWebcamOpen) {
+      const imageSrc = webcamRef.current.getScreenshot();
+      // Convert base64 to blob
+      const byteString = atob(imageSrc.split(',')[1]);
+      const mimeString = imageSrc.split(',')[0].split(':')[1].split(';')[0];
+      const ab = new ArrayBuffer(byteString.length);
+      const ia = new Uint8Array(ab);
+      for (let i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+      }
+      const blob = new Blob([ab], { type: mimeString });
+      const localImageUrl = URL.createObjectURL(blob);
+
+      navigate('/qr', { state: { takeImage: localImageUrl, background: backgroundImage } });
+    } else {
+      setIsWebcamOpen(true);
+    }
+  };
+
+  const handleCloseWebcam = () => {
+    setIsWebcamOpen(false);
   };
 
   const handleColorSelect = (color) => {
@@ -47,7 +72,7 @@ function TypeOfCar() {
             key={index} 
             className="color-option" 
             style={{
-              background: `linear-gradient(to right, ${color} 50%, ${lightenColor(color)} 50%)`,
+              background: `linear-gradient(to bottom right, ${color} 50%, ${lightenColor(color)} 50%)`,
               border: selectedColor === color ? '3px solid white' : '1px solid white'
             }}
             onClick={() => handleColorSelect(color)}
@@ -55,16 +80,25 @@ function TypeOfCar() {
         ))}
       </div>
       <div className="car-image-container">
-        <img src={backgroundImage} alt="Selected background" className="background-image" />
+        {isWebcamOpen ? (
+          <Webcam
+            audio={false}
+            ref={webcamRef}
+            screenshotFormat="image/jpeg"
+            className="webcam"
+          />
+        ) : (
+          <img src={backgroundImage} alt="Selected background" className="background-image" />
+        )}
       </div>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+      <Box className="grid-button">
         <Button 
           variant="contained" 
           color="secondary" 
           className="mui-button"
-          onClick={handleBack}
+          onClick={isWebcamOpen ? handleCloseWebcam : handleBack}
         >
-          TRỞ LẠI
+          {isWebcamOpen ? 'HỦY' : 'TRỞ LẠI'}
         </Button>
         <Button 
           variant="contained" 
@@ -72,7 +106,7 @@ function TypeOfCar() {
           className="mui-button"
           onClick={handleCapture}
         >
-          CHỤP
+          {isWebcamOpen ? 'CHỤP' : 'MỞ CAMERA'}
         </Button>
       </Box>
     </div>
