@@ -7,11 +7,12 @@ import './TypeOfCar.css';
 function TypeOfCar() {
   const navigate = useNavigate();
   const location = useLocation();
+  const webcamRef = useRef(null);
 
   const backgroundImage = location.state?.background;
+
   const [selectedColor, setSelectedColor] = useState(null);
   const [isWebcamOpen, setIsWebcamOpen] = useState(location.state?.openWebcam || false);
-  const webcamRef = useRef(null);
 
   const handleBack = () => {
     navigate('/');
