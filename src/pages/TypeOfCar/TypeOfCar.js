@@ -13,8 +13,8 @@ function TypeOfCar() {
     navigate('/');
   };
 
-  const handleCapture = () => {
-    console.log('Capture button clicked');
+  const handleCapture = (selectedImage) => {
+    navigate('/qr', { state: { background: selectedImage } });
   };
 
   const handleColorSelect = (color) => {
@@ -70,7 +70,7 @@ function TypeOfCar() {
           variant="contained" 
           color="secondary" 
           className="mui-button"
-          onClick={handleCapture}
+          onClick={() => handleCapture(backgroundImage)}
         >
           CHỤP
         </Button>

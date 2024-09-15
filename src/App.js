@@ -3,6 +3,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ChooseBackground from './pages/ChooseBackground/ChooseBackground';
 import TypeOfCar from './pages/TypeOfCar/TypeOfCar';
+import QR from './pages/QR/QR';
 import Layout from './components/Layout';
 import './App.css';
 
@@ -25,6 +26,7 @@ function App() {
         <Routes>
           <Route path="/" element={<ChooseBackground />} />
           <Route path="/type-of-car" element={<TypeOfCar />} />
+          <Route path="/qr" element={<QR />} />
           </Routes>
         </Layout>
       </Router>
