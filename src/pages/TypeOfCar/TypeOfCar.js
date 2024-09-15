@@ -47,7 +47,7 @@ function TypeOfCar() {
             key={index} 
             className="color-option" 
             style={{
-              background: `linear-gradient(to right, ${color} 50%, ${lightenColor(color)} 50%)`,
+              background: `linear-gradient(to bottom right, ${color} 50%, ${lightenColor(color)} 50%)`,
               border: selectedColor === color ? '3px solid white' : '1px solid white'
             }}
             onClick={() => handleColorSelect(color)}
