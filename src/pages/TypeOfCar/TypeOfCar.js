@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Button, Box } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Webcam from 'react-webcam';
@@ -9,10 +9,12 @@ function TypeOfCar() {
   const location = useLocation();
   const webcamRef = useRef(null);
 
-  const backgroundImage = location.state?.background;
+  const backgroundImageOriginal = location.state?.background;
 
   const [selectedColor, setSelectedColor] = useState(null);
   const [isWebcamOpen, setIsWebcamOpen] = useState(location.state?.openWebcam || false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [backgroundImage, setBackgroundImage] = useState(backgroundImageOriginal);
 
   const handleBack = () => {
     navigate('/');
@@ -50,8 +52,41 @@ function TypeOfCar() {
     setIsWebcamOpen(false);
   };
 
-  const handleColorSelect = (color) => {
+  const handleColorSelect = async (color) => {
+    if (color === selectedColor) return; // Prevent unnecessary API calls if the color hasn't changed
+    
     setSelectedColor(color);
+    setIsLoading(true);
+    
+    if (backgroundImageOriginal) {
+      try {
+        // Fetch the image file
+        const imageResponse = await fetch(backgroundImageOriginal);
+        const imageBlob = await imageResponse.blob();
+        // Create FormData and append the image file
+        const formData = new FormData();
+        formData.append('image', imageBlob, 'background.jpg');
+        formData.append('color', color);  // Add the color to the form data
+
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/change-color`, {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+          console.log('Color changed successfully:', result);
+          // Update the backgroundImage with the new colored image URL
+          setBackgroundImage(result.url + '?t=' + new Date().getTime());
+        } else {
+          console.error('Failed to change color');
+        }
+      } catch (error) {
+        console.error('Error changing color:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
   };
 
   const lightenColor = (color) => {
@@ -117,6 +152,7 @@ function TypeOfCar() {
           {isWebcamOpen ? 'CHỤP' : 'MỞ CAMERA'}
         </Button>
       </Box>
+      {isLoading && <div className="loading-overlay">Changing color...</div>}
     </div>
   );
 }
