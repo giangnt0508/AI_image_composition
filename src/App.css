@@ -47,12 +47,6 @@
   overflow: hidden;
 }
 
-.logo {
-  max-width: 200px;
-  align-self: center;
-  max-height: 100px;
-}
-
 .car-image {
   position: absolute;
   left: 20px;

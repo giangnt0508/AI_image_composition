@@ -9,8 +9,53 @@ body, html {
   background: radial-gradient(circle, #FF6347 10%, #8B0000 100%);
 }
 
+.layout {
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.background-image {
+  position: fixed;
+  top: 600px;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 600px);
+  z-index: 1;
+  pointer-events: none;
+}
+
 .background-image img {
   width: 100%;
-  height: auto;
-  object-fit: cover;
+  height: 100%;
+  object-fit: contain; /* Default for desktop */
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+}
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+}
+
+.logo {
+  max-width: 200px;
+  align-self: center;
+  max-height: 100px;
+}
+
+
+/* Mobile styles */
+@media screen and (max-width: 768px) {
+  .background-image {
+    top: 0;
+    height: 100%;
+  }
+
+  .background-image {
+    position: static;
+  }
 }

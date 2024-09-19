@@ -17,10 +17,8 @@ function ChooseBackground() {
     navigate('/type-of-car', { state: { background: selectedImage } });
   };
 
-//   const handleBack = () => {
-//     // Implement back functionality
-//     console.log('Back button clicked');
-//   };
+  const handleBack = () => {
+  };
 
   const images = [option1, option2, option3, option4, option5, option6];
 
@@ -45,14 +43,14 @@ function ChooseBackground() {
             </div>
             ))}
         </div>
-    {/* <Button 
+    <Button 
         variant="contained" 
         color="secondary" 
         className="mui-button"
         onClick={handleBack}
     >
         TRỞ LẠI
-    </Button> */}
+    </Button>
     </div>
   );
 }

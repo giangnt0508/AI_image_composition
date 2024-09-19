@@ -131,7 +131,7 @@ function TypeOfCar() {
             className="webcam"
           />
         ) : (
-          <img src={backgroundImage} alt="Selected background" className="background-image" />
+          <img src={backgroundImage} alt="Selected background" className="background-image-type-of-car" />
         )}
       </div>
       <Box className="grid-button">

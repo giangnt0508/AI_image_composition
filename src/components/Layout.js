@@ -6,8 +6,12 @@ import '../styles/global.css';
 function Layout({ children }) {
   return (
     <div className="layout">
-      <img src={logo} alt="ISUZU LIFESTYLE" className="logo" />
-      {children}
+      <div className="content">
+        <div className="logo-container">
+          <img src={logo} alt="ISUZU LIFESTYLE" className="logo" />
+        </div>
+        {children}
+      </div>
       <div className="background-image">
         <img src={imageBackground} alt="Isuzu background" />
       </div>
