@@ -18,6 +18,7 @@ function ChooseBackground() {
   };
 
   const handleBack = () => {
+    navigate('/');
   };
 
   const images = [option1, option2, option3, option4, option5, option6];

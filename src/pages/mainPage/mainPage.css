@@ -1,0 +1,16 @@
+.main-page {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+  }
+
+  @media screen and (max-width: 767px) {
+    .main-page {
+        height: 81vh;
+        scale: 63%;
+    }
+  }

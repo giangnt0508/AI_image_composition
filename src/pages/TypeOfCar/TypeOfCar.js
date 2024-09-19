@@ -3,6 +3,7 @@ import { Button, Box } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Webcam from 'react-webcam';
 import './TypeOfCar.css';
+import personImage from '../../images/2people.jpg';
 
 function TypeOfCar() {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ function TypeOfCar() {
   const [backgroundImage, setBackgroundImage] = useState(backgroundImageOriginal);
 
   const handleBack = () => {
-    navigate('/');
+    navigate('/choose-background');
   };
 
   const handleCapture = async () => {
@@ -25,23 +26,41 @@ function TypeOfCar() {
       const imageSrc = webcamRef.current.getScreenshot();
       
       try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/save-image`, {
+        // Convert base64 to Blob
+        // const byteString = atob(imageSrc.split(',')[1]);
+        // const mimeString = imageSrc.split(',')[0].split(':')[1].split(';')[0];
+        // const ab = new ArrayBuffer(byteString.length);
+        // const ia = new Uint8Array(ab);
+        // for (let i = 0; i < byteString.length; i++) {
+        //   ia[i] = byteString.charCodeAt(i);
+        // }
+        // const personBlob = new Blob([ab], { type: mimeString });
+        const personResponse = await fetch(personImage);
+        const personBlob = await personResponse.blob();
+
+        // Fetch the landscape image
+        const imageResponse = await fetch(backgroundImageOriginal);
+        const landscapeBlob = await imageResponse.blob();
+
+        // Create FormData and append both images
+        const formData = new FormData();
+        formData.append('person_image', personBlob, 'person.jpg');
+        formData.append('landscape_image', landscapeBlob, 'background.jpg');
+
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/merge-picture`, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ base64: imageSrc }),
+          body: formData,
         });
 
         if (response.ok) {
           const result = await response.json();
-          console.log('Image saved successfully:', result);
+          console.log('Image merged successfully:', result);
           navigate('/qr', { state: { takeImage: result.url, background: backgroundImage } });
         } else {
-          console.error('Failed to save image');
+          console.error('Failed to merge image');
         }
       } catch (error) {
-        console.error('Error saving image:', error);
+        console.error('Error merging image:', error);
       }
     } else {
       setIsWebcamOpen(true);
