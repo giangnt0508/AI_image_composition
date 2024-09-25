@@ -9,7 +9,6 @@ function QR() {
   const location = useLocation();
   const backgroundImage = location.state?.background;
   const takeImage = location.state?.takeImage;
-  console.log("takeImage", takeImage);
 
   const handleBack = () => {
     navigate('/');
