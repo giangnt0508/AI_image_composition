@@ -16,10 +16,6 @@ function MainPage() {
         src={backgroundImage} 
         alt="Background" 
         className="background-image-main" 
-        style={{
-          height: '100vw',
-          objectFit: 'cover'
-        }} 
       />
     </div>
   );

@@ -35,11 +35,11 @@ function ChoosePerson() {
             {nameCity}
         </Button>
         <h1>Chọn nhân vật</h1>
-        <div className="image-grid">
+        <div className="image-grid-pr">
             {peopleList.map((person, index) => (
             <div 
                 key={index} 
-                className="image-grid-item" 
+                className="image-grid-item-pr" 
                 onClick={() => handlePersonSelect(person)}
             >
                 <img src={defaultPerson} alt={`Person ${index + 1}`} />

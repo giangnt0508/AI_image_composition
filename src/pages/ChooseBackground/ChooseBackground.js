@@ -13,8 +13,8 @@ import './ChooseBackground.css';
 function ChooseBackground() {
   const navigate = useNavigate();
 
-  const handleBackgroundSelect = (selectedImage) => {
-    navigate('/type-of-car', { state: { background: selectedImage } });
+  const handleBackgroundSelect = (selectedImage, folder) => {
+    navigate('/type-of-car', { state: { background: selectedImage, folder: folder } });
   };
 
   const handleBack = () => {
@@ -22,6 +22,7 @@ function ChooseBackground() {
   };
 
   const images = [option1, option2, option3, option4, option5, option6];
+  const folders = ['option1', 'option2', 'option3', 'option4', 'option5', 'option6'];
 
   return (
     <div className="choose-background">
@@ -38,7 +39,7 @@ function ChooseBackground() {
             <div 
                 key={index} 
                 className="image-grid-item" 
-                onClick={() => handleBackgroundSelect(img)}
+                onClick={() => handleBackgroundSelect(img, folders[index])}
             >
                 <img src={img} alt={`Option ${index + 1}`} />
             </div>
