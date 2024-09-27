@@ -3,7 +3,7 @@ import { Button, Box } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Webcam from 'react-webcam';
 import './TypeOfCar.css';
-import personImage from '../../images/2people.jpg';
+import personImage from '../../images/ahalfperson.jpg';
 
 function TypeOfCar() {
   const navigate = useNavigate();
@@ -26,17 +26,10 @@ function TypeOfCar() {
       const imageSrc = webcamRef.current.getScreenshot();
       
       try {
-        // Convert base64 to Blob
-        // const byteString = atob(imageSrc.split(',')[1]);
-        // const mimeString = imageSrc.split(',')[0].split(':')[1].split(';')[0];
-        // const ab = new ArrayBuffer(byteString.length);
-        // const ia = new Uint8Array(ab);
-        // for (let i = 0; i < byteString.length; i++) {
-        //   ia[i] = byteString.charCodeAt(i);
-        // }
-        // const personBlob = new Blob([ab], { type: mimeString });
-        const personResponse = await fetch(personImage);
-        const personBlob = await personResponse.blob();
+        setIsLoading(true);
+        // const personResponse = await fetch(personImage);
+        // const personBlob = await personResponse.blob();
+        const personBlob = await fetch(imageSrc).then(res => res.blob());
 
         // Fetch the landscape image
         const imageResponse = await fetch(backgroundImageOriginal);
@@ -55,12 +48,14 @@ function TypeOfCar() {
         if (response.ok) {
           const result = await response.json();
           console.log('Image merged successfully:', result);
-          navigate('/qr', { state: { takeImage: result.url, background: backgroundImage } });
+          navigate('/qr', { state: { takeImage: result.url + '?t=' + new Date().getTime(), background: backgroundImage } });
         } else {
           console.error('Failed to merge image');
         }
       } catch (error) {
         console.error('Error merging image:', error);
+      } finally {
+        setIsLoading(false);
       }
     } else {
       setIsWebcamOpen(true);
@@ -171,7 +166,7 @@ function TypeOfCar() {
           {isWebcamOpen ? 'CHỤP' : 'MỞ CAMERA'}
         </Button>
       </Box>
-      {isLoading && <div className="loading-overlay">Changing color...</div>}
+      {isLoading && <div className="loading-overlay">Đang xử lý...</div>}
     </div>
   );
 }

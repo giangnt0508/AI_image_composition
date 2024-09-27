@@ -12,7 +12,15 @@ function MainPage() {
 
   return (
     <div className="main-page" onClick={handleStart}>
-      <img src={backgroundImage} alt="Background" className="background-image-main" />
+      <img 
+        src={backgroundImage} 
+        alt="Background" 
+        className="background-image-main" 
+        style={{
+          height: '100vw',
+          objectFit: 'cover'
+        }} 
+      />
     </div>
   );
 }

@@ -1,0 +1,64 @@
+{
+    "Hồ Chí Minh": [
+    {
+        "ten": "Nguyễn Văn A",
+        "cam_nghi": "Hãng xe Isuzu mang lại sự tin cậy và chất lượng, rất phù hợp cho việc vận chuyển hàng hóa tại chợ."
+    },
+    {
+        "ten": "Trần Thị B",
+        "cam_nghi": "Isuzu cung cấp những chiếc xe vận tải lý tưởng cho các hoạt động du lịch và giao thông trong thành phố."
+    }
+    ],
+    "Hà Nội": [
+    {
+        "ten": "Lê Văn C",
+        "cam_nghi": "Isuzu là sự lựa chọn tuyệt vời cho việc vận chuyển và khám phá các địa điểm lịch sử."
+    },
+    {
+        "ten": "Phạm Thị D",
+        "cam_nghi": "Với thiết kế bền bỉ, xe Isuzu rất phù hợp cho việc di chuyển qua các con phố hẹp và đông đúc."
+    },
+    {
+        "ten": "Trần Thị C",
+        "cam_nghi": "Isuzu cung cấp những chiếc xe vận tải lý tưởng cho các hoạt động du lịch và giao thông trong thành phố."
+    },
+    {
+        "ten": "Trần Thị D",
+        "cam_nghi": "Isuzu cung cấp những chiếc xe vận tải lý tưởng cho các hoạt động du lịch và giao thông trong thành phố."
+    }
+    ],
+    "Đà Nẵng": [
+    {
+        "ten": "Lê Văn A",
+        "cam_nghi": "Isuzu là sự lựa chọn tuyệt vời cho việc vận chuyển và khám phá các địa điểm lịch sử."
+    },
+    {
+        "ten": "Nguyễn Văn E",
+        "cam_nghi": "Xe Isuzu rất tiện lợi cho các chuyến đi đến bãi biển, đáp ứng nhu cầu di chuyển an toàn và thoải mái."
+    },
+    {
+        "ten": "Trần Thị F",
+        "cam_nghi": "Isuzu mang đến sự sang trọng và ấn tượng cho các chuyến tham quan thành phố."
+    }
+    ],
+    "Bình Dương": [
+    {
+        "ten": "Lê Văn G",
+        "cam_nghi": "Hãng xe Isuzu hỗ trợ rất tốt cho các hoạt động vận chuyển trong khu công nghiệp."
+    },
+    {
+        "ten": "Phạm Thị H",
+        "cam_nghi": "Xe Isuzu là lựa chọn phổ biến cho sinh viên và giảng viên trong việc di chuyển hàng ngày."
+    }
+    ],
+    "Quảng Trị": [
+    {
+        "ten": "Nguyễn Văn I",
+        "cam_nghi": "Isuzu cung cấp những chiếc xe phù hợp cho các hoạt động vận hành và quản lý hiệu quả."
+    },
+    {
+        "ten": "Trần Thị J",
+        "cam_nghi": "Sử dụng xe Isuzu tạo ra sự thuận tiện trong việc tổ chức sự kiện tại công viên."
+    }
+    ]
+}
