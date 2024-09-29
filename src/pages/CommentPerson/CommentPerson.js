@@ -5,6 +5,15 @@ import logoComment from '../../images/logoComment.png';
 import backgroundImage from '../../images/option2.jpg';
 import bottomLeftImage from '../../images/option2.jpg';
 import middleRightImage from '../../images/option2.jpg';
+import imageDai from './image/Dai.png';
+import imageDaoAnhPhi from './image/DaoAnhPhi.png';
+import imageHiep from './image/Hiep.png';
+import imageLyManhHung from './image/LyManhHung.png';
+import imageNghiemGiaHy from './image/NghiemGiaHy.png';
+import imageNguyenNgocThanh from './image/NguyenNgocThanh.png';
+import imageNguyenVanDuy from './image/NguyenVanDuy.png';
+import imageThanh from './image/Thanh.png';
+import imageTranQuocDat from './image/TranQuocDat.png';
 import './CommentPerson.css';
 
 function CommentPerson() {
@@ -16,7 +25,7 @@ function CommentPerson() {
   const nameCity = location.state?.nameCity;
 
   useEffect(() => {
-    if (selectedPerson) {
+    if (selectedPerson && canvasRef.current) {
       const canvas = canvasRef.current;
       const ctx = canvas.getContext('2d');
       
@@ -110,7 +119,27 @@ function CommentPerson() {
         {nameCity}
       </Button>
       <Box className="canvas-container">
-        <canvas ref={canvasRef}></canvas>
+        {selectedPerson?.ten === "Anh Đại" ? (
+          <img className="person-image" src={imageDai} alt="Anh Đại" />
+        ) : selectedPerson?.ten === "Anh Đào Ánh Phi" ? (
+          <img className="person-image" src={imageDaoAnhPhi} alt="Anh Đào Ánh Phi" />
+        ) : selectedPerson?.ten === "Anh Hiệp" ? (
+          <img className="person-image" src={imageHiep} alt="Anh Hiệp" />
+        ) : selectedPerson?.ten === "Anh Lý Mạnh Hùng" ? (
+          <img className="person-image" src={imageLyManhHung} alt="Anh Lý Mạnh Hùng" />
+        ) : selectedPerson?.ten === "Anh Nghiêm Gia Hỷ" ? (
+          <img className="person-image" src={imageNghiemGiaHy} alt="Nghiêm Gia Hỷ" />
+        ) : selectedPerson?.ten === "Anh Nguyễn Ngọc Thạnh" ? (
+          <img className="person-image" src={imageNguyenNgocThanh} alt="Anh Nguyễn Ngọc Thạnh" />
+        ) : selectedPerson?.ten === "Anh Nguyễn Văn Duy" ? (
+          <img className="person-image" src={imageNguyenVanDuy} alt="Anh Nguyễn Văn Duy" />
+        ) : selectedPerson?.ten === "Anh Thành" ? (
+          <img className="person-image" src={imageThanh} alt="Anh Thành" />
+        ) : selectedPerson?.ten === "Anh Trần Quốc Đạt" ? (
+          <img className="person-image" src={imageTranQuocDat} alt="Anh Trần Quốc Đạt" />
+        ) : (
+          <canvas ref={canvasRef}></canvas>
+        )}
       </Box>
       <Button 
         variant="contained" 

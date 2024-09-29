@@ -11,6 +11,8 @@ import './App.css';
 import VNmap from './pages/VNmap/VNmap';
 import ChoosePerson from './pages/ChoosePerson/ChoosePerson';
 import CommentPerson from './pages/CommentPerson/CommentPerson';
+import Permission from './pages/Permission/Permission';
+import ViewPhoto from './pages/ViewPhoto/ViewPhoto';
 
 const theme = createTheme({
   palette: {
@@ -28,7 +30,8 @@ function App() {
     <ThemeProvider theme={theme}>
       <Router>
         <Routes>
-          <Route path="/" element={<MainPage />} />
+          <Route path="/" element={<Permission />} />
+          <Route path="/main-page" element={<MainPage />} />
           <Route path="/mux/*" element={
             <LayoutMUX>
               <Routes>
@@ -43,6 +46,7 @@ function App() {
               <Routes>
                 <Route path="/choose-background" element={<ChooseBackground />} />
                 <Route path="/type-of-car" element={<TypeOfCar />} />
+                <Route path="/view-photo" element={<ViewPhoto />} />
                 <Route path="/qr" element={<QR />} />
               </Routes>
             </Layout>

@@ -30,3 +30,11 @@ canvas {
   max-width: 100%;
   height: auto;
 }
+
+.person-image {
+  border: 3px solid white; /* White border */
+  border-radius: 5px; /* Rounded corners */
+  width: 100%; /* Adjust as needed */
+  height: auto; /* Maintain aspect ratio */
+  object-fit: cover; /* Cover the area */
+}

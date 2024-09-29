@@ -1,17 +1,16 @@
 import React from 'react';
 import { Button, Box } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { QRCodeSVG } from 'qrcode.react';
-import './QR.css';
+import './ViewPhoto.css';
 
-function QR() {
+function ViewPhoto() {
   const navigate = useNavigate();
   const location = useLocation();
   const backgroundImage = location.state?.background;
   const takeImage = location.state?.takeImage;
-
-  const handleBack = () => {
-    navigate('/');
+console.log("takeImage", takeImage);
+  const handleGotoQR = () => {
+    navigate('/qr', { state: { takeImage: takeImage, background: backgroundImage } });
   };
 
   const handleTakeImageBack = () => {
@@ -26,10 +25,13 @@ function QR() {
         className="mui-button"
         disabled
       >
-        Quét mã QR code, tải hình ảnh vào máy của bạn
+        XEM HÌNH CỦA BẠN
       </Button>
       <div className="image-grid-qr">
         <div>
+            <div className="image-grid-item-qr">
+                <img src={takeImage} alt='image-original' style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            </div>
             <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '15px' }}>
                 <Button 
                     variant="contained" 
@@ -42,19 +44,14 @@ function QR() {
             </div>
         </div>
         <div>
-            <div className="image-grid-item-qr">
-                <a href={takeImage} download="background-image.jpg" style={{ display: 'block', width: '100%', height: '100%' }}>
-                    <QRCodeSVG value={takeImage} width="100%" height="100%" bgColor="#FFFFFF" fgColor="#FF0000"/>
-                </a>
-            </div>
             <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '15px' }}>
                 <Button 
                     variant="contained" 
                     color="secondary" 
                     className="mui-button"
-                    onClick={handleBack}
+                    onClick={handleGotoQR}
                 >
-                    HOME
+                    TẠO QR CODE
                 </Button>
             </div>
         </div>
@@ -63,4 +60,4 @@ function QR() {
   );
 }
 
-export default QR;
+export default ViewPhoto;

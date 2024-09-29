@@ -1,9 +1,11 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Button, Box } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Webcam from 'react-webcam';
 import './TypeOfCar.css';
 import personImage from '../../images/ahalfperson.jpg';
+import { SelfieSegmentation  } from '@mediapipe/selfie_segmentation'; // Add this line
+import * as cam from "@mediapipe/camera_utils";
 
 // Import images for option1
 import option1White from '../../images/option1/F5F5F1.png';
@@ -70,7 +72,8 @@ function TypeOfCar() {
   const navigate = useNavigate();
   const location = useLocation();
   const webcamRef = useRef(null);
-
+  const canvasRef = useRef(null);
+  
   const backgroundImageOriginal = location.state?.background;
   const folderOriginal = location.state?.folder;
   
@@ -78,8 +81,12 @@ function TypeOfCar() {
   const [isWebcamOpen, setIsWebcamOpen] = useState(location.state?.openWebcam || false);
   const [isLoading, setIsLoading] = useState(false);
   const [backgroundImage, setBackgroundImage] = useState(backgroundImageOriginal);
-
+  
   const [selectedOption, setSelectedOption] = useState(folderOriginal);
+
+  const [load, setLoad] = useState(false);
+
+
   const colorImages = {
     option1: {
       '#F5F5F1': option1White,
@@ -146,38 +153,46 @@ function TypeOfCar() {
   const handleBack = () => {
     navigate('/choose-background');
   };
+  const [capturedImage, setCapturedImage] = useState(null); // Thêm state để lưu ảnh chụp
 
   const handleCapture = async () => {
-    if (isWebcamOpen) {
+    if (isWebcamOpen && webcamRef.current.video.readyState === 4) {
       const imageSrc = webcamRef.current.getScreenshot();
-      
+      console.log("Image Source:", imageSrc); // Kiểm tra giá trị của imageSrc
+
+      setCapturedImage(imageSrc);
       try {
         setIsLoading(true);
         // const personResponse = await fetch(personImage);
         // const personBlob = await personResponse.blob();
         const personBlob = await fetch(imageSrc).then(res => res.blob());
+        const personBlobUrl = URL.createObjectURL(personBlob);
 
+        //--------------------------
+        // navigate('/view-photo', { state: { takeImage: personBlobUrl, background: backgroundImage } });
+        //--------------------------
+        
         // Fetch the landscape image
-        const imageResponse = await fetch(backgroundImageOriginal);
+        const imageResponse = await fetch(backgroundImage);
         const landscapeBlob = await imageResponse.blob();
 
         // Create FormData and append both images
-        const formData = new FormData();
-        formData.append('person_image', personBlob, 'person.jpg');
-        formData.append('landscape_image', landscapeBlob, 'background.jpg');
+        // const formData = new FormData();
+        // formData.append('person_image', personBlob, 'person.jpg');
+        // formData.append('landscape_image', landscapeBlob, 'background.jpg');
 
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/merge-picture`, {
-          method: 'POST',
-          body: formData,
-        });
+        // const response = await fetch(`${process.env.REACT_APP_API_URL}/merge-picture`, {
+        //   method: 'POST',
+        //   body: formData,
+        // });
 
-        if (response.ok) {
-          const result = await response.json();
-          console.log('Image merged successfully:', result);
-          navigate('/qr', { state: { takeImage: result.url + '?t=' + new Date().getTime(), background: backgroundImage } });
-        } else {
-          console.error('Failed to merge image');
-        }
+        // if (response.ok) {
+        //   const result = await response.json();
+        //   console.log('Image merged successfully:', result);
+        //   navigate('/view-photo', { state: { takeImage: result.url + '?t=' + new Date().getTime(), background: backgroundImage } });
+        // } else {
+        //   console.error('Failed to merge image');
+        // }
       } catch (error) {
         console.error('Error merging image:', error);
       } finally {
@@ -218,6 +233,71 @@ function TypeOfCar() {
 
 
   const colors = ['#F5F5F1', '#B1B3B3', '#4E5D5E', '#1A1A1A', '#C51C1C', '#7B4B38', '#2C3E83', '#F8F8F7'];
+  
+
+  const onResults = async (results) => {
+    const img = document.getElementById('vbackground')
+    const videoWidth = webcamRef.current.video.videoWidth;
+    const videoHeight = webcamRef.current.video.videoHeight;
+
+    canvasRef.current.width = videoWidth;
+    canvasRef.current.height = videoHeight;
+
+    const canvasElement = canvasRef.current;
+    const canvasCtx = canvasElement.getContext("2d");
+
+    canvasCtx.save();
+    canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+    canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
+
+    // Only overwrite existing pixels.
+    canvasCtx.globalCompositeOperation = 'destination-atop';
+    canvasCtx.drawImage(results.segmentationMask, 0, 0, canvasElement.width, canvasElement.height);
+
+    // Only overwrite missing pixels.
+
+    canvasCtx.globalCompositeOperation = 'destination-over';
+    canvasCtx.drawImage(img, 0, 0, canvasElement.width, canvasElement.height);
+    canvasCtx.restore();
+    setLoad(true);
+  }
+
+  useEffect(() => {
+    const selfieSegmentation = new SelfieSegmentation({
+      locateFile: (file) => {
+        return `https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/${file}`;
+      },
+    });
+
+    selfieSegmentation.setOptions({
+      modelSelection: 1,
+    });
+
+    selfieSegmentation.onResults(onResults);
+
+    if (
+      typeof webcamRef.current !== "undefined" &&
+      webcamRef.current !== null
+    ) {
+      try {
+        const camera = new cam.Camera(webcamRef.current.video, {
+          onFrame: async () => {
+            try {
+              await selfieSegmentation.send({ image: webcamRef.current.video });
+            } catch (error) {
+              console.error("Error sending image to selfie segmentation:", error);
+            }
+          },
+          width: 1280,
+          height: 720
+        });
+
+        camera.start();
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+  }, [isWebcamOpen]);
 
   return (
     <div className="type-of-car">
@@ -229,6 +309,11 @@ function TypeOfCar() {
       >
         Chọn màu xe mà bạn yêu thích
       </Button>
+      {capturedImage && ( // Hiển thị ảnh chụp nếu có
+            <div className="captured-image-container">
+                <img src={capturedImage} alt="Captured" style={{ width: '100%', height: 'auto' }} />
+            </div>
+        )}
       {!isWebcamOpen && (
         <div className="color-grid">
           {colors.map((color, index) => (
@@ -246,12 +331,26 @@ function TypeOfCar() {
       )}
       <div className="car-image-container">
         {isWebcamOpen ? (
-          <Webcam
-            audio={false}
-            ref={webcamRef}
-            screenshotFormat="image/jpeg"
-            className="webcam"
-          />
+          <div >
+            <Webcam
+                ref={webcamRef}
+                screenshotFormat="image/jpeg"
+                style={{
+                  display: "none",
+                  width: "100%",
+                  height: "100%"
+                }}
+              />
+              <canvas
+                ref={canvasRef}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover"
+                }}
+              ></canvas>
+              <img id="vbackground" src={backgroundImage} alt="The Screan" style={{ display: 'none' }} />
+          </div>
         ) : (
           <img src={backgroundImage} alt="Selected background" className="background-image-type-of-car" />
         )}

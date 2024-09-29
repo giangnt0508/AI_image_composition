@@ -11,14 +11,20 @@ const cityData = {
   "VN-25": { name: "Quảng Trị", value: 3 },
   "VN-DN": { name: "Đà Nẵng", value: 1},
   "VN-HN": { name: "Hà Nội", value: 18 },
-  "VN-SG": { name: "Hồ Chí Minh", value: 20 }
+  "VN-SG": { name: "Hồ Chí Minh", value: 20 },
+  "VN-39": {name: "Đồng Nai", value: 20 },
+  "VN-35": {name: "Lâm Đồng", value: 20 },
+  "VN-72": {name: "Đăk Nông", value: 20 },
 };
 const cityDataLocation = {
-  "VN-57": { name: "Bình Dương", value: 1, coordinates: [14.1653, 101.6758] },
-  "VN-25": { name: "Quảng Trị", value: 3, coordinates: [20.7943, 101.0451] },
+  "VN-57": { name: "Bình Dương", value: 1, coordinates: [13.1653, 100.6758] },
+  "VN-25": { name: "Quảng Trị", value: 3, coordinates: [18.7943, 101.0451] },
   "VN-DN": { name: "Đà Nẵng", value: 1, coordinates: [20.5544, 108.5022] },
-  "VN-HN": { name: "Hà Nội", value: 18, coordinates: [28.0285, 108.8542] },
-  "VN-SG": { name: "Hồ Chí Minh", value: 20, coordinates: [18.8231, 106.6297] }
+  "VN-HN": { name: "Hà Nội", value: 18, coordinates: [26.0285, 108.8542] },
+  "VN-SG": { name: "Hồ Chí Minh", value: 20, coordinates: [15.8231, 106.6297] },
+  "VN-39": {name: "Đồng Nai", value: 1, coordinates: [18.8231, 108.6297] },
+  "VN-35": {name: "Lâm Đồng", value: 1, coordinates: [21.8231, 110.0297] },
+  "VN-72": {name: "Đăk Nông", value: 1, coordinates: [24.5653, 102.2758] },
 };
 
 function VNmap() {
@@ -86,7 +92,7 @@ function VNmap() {
           </Popup>
         ))}
         <Popup
-          position={[28.668011, 109.939995]}
+          position={[26.668011, 109.939995]}
           closeButton={false}
           closeOnClick={false}
           autoClose={false}
@@ -94,7 +100,7 @@ function VNmap() {
           Quần đảo Hoàng Sa
         </Popup>
         <Popup
-          position={[23.487044, 109.939995]}
+          position={[20.487044, 109.939995]}
           closeButton={false}
           closeOnClick={false}
           autoClose={false}
