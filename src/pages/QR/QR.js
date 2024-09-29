@@ -29,34 +29,28 @@ function QR() {
         Quét mã QR code, tải hình ảnh vào máy của bạn
       </Button>
       <div className="image-grid-qr">
-        <div>
-            <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '15px' }}>
-                <Button 
-                    variant="contained" 
-                    color="secondary" 
-                    className="mui-button"
-                    onClick={handleTakeImageBack}
-                >
-                    CHỤP LẠI
-                </Button>
-            </div>
+        <div className="image-grid-item-qr">
+            <a href={takeImage} download="background-image.jpg" style={{ display: 'block', width: '100%', height: '100%' }}>
+                <QRCodeSVG value={takeImage} width="100%" height="100%" bgColor="#FFFFFF" fgColor="#FF0000"/>
+            </a>
         </div>
-        <div>
-            <div className="image-grid-item-qr">
-                <a href={takeImage} download="background-image.jpg" style={{ display: 'block', width: '100%', height: '100%' }}>
-                    <QRCodeSVG value={takeImage} width="100%" height="100%" bgColor="#FFFFFF" fgColor="#FF0000"/>
-                </a>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '15px' }}>
-                <Button 
-                    variant="contained" 
-                    color="secondary" 
-                    className="mui-button"
-                    onClick={handleBack}
-                >
-                    HOME
-                </Button>
-            </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '15px' }}>
+            <Button 
+                variant="contained" 
+                color="secondary" 
+                className="mui-button"
+                onClick={handleTakeImageBack}
+            >
+                CHỤP LẠI
+            </Button>
+            <Button 
+                variant="contained" 
+                color="secondary" 
+                className="mui-button"
+                onClick={handleBack}
+            >
+                HOME
+            </Button>
         </div>
       </div>
     </div>

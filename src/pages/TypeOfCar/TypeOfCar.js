@@ -153,46 +153,53 @@ function TypeOfCar() {
   const handleBack = () => {
     navigate('/choose-background');
   };
-  const [capturedImage, setCapturedImage] = useState(null); // Thêm state để lưu ảnh chụp
 
   const handleCapture = async () => {
-    if (isWebcamOpen && webcamRef.current.video.readyState === 4) {
-      const imageSrc = webcamRef.current.getScreenshot();
-      console.log("Image Source:", imageSrc); // Kiểm tra giá trị của imageSrc
-
-      setCapturedImage(imageSrc);
+    if (isWebcamOpen) {
+      // const imageSrc = webcamRef.current.getScreenshot();
+      
       try {
+        const canvas = canvasRef.current;
+        const imageSrc = canvas.toDataURL('image/jpg');
+        // Convert data URL (imageSrc) to Blob
+        const dataURLtoBlob = (dataurl) => {
+          const arr = dataurl.split(',');
+          const mime = arr[0].match(/:(.*?);/)[1];
+          const bstr = atob(arr[1]);
+          let n = bstr.length;
+          const u8arr = new Uint8Array(n);
+          while (n--) {
+              u8arr[n] = bstr.charCodeAt(n);
+          }
+          return new Blob([u8arr], { type: mime });
+      };
         setIsLoading(true);
         // const personResponse = await fetch(personImage);
         // const personBlob = await personResponse.blob();
-        const personBlob = await fetch(imageSrc).then(res => res.blob());
-        const personBlobUrl = URL.createObjectURL(personBlob);
+        // const personBlob = await fetch(imageSrc).then(res => res.blob());
+        const personBlob = dataURLtoBlob(imageSrc);
 
-        //--------------------------
-        // navigate('/view-photo', { state: { takeImage: personBlobUrl, background: backgroundImage } });
-        //--------------------------
-        
         // Fetch the landscape image
         const imageResponse = await fetch(backgroundImage);
         const landscapeBlob = await imageResponse.blob();
 
         // Create FormData and append both images
-        // const formData = new FormData();
-        // formData.append('person_image', personBlob, 'person.jpg');
-        // formData.append('landscape_image', landscapeBlob, 'background.jpg');
+        const formData = new FormData();
+        formData.append('person_image', personBlob, 'person.jpg');
+        formData.append('landscape_image', landscapeBlob, 'background.jpg');
 
-        // const response = await fetch(`${process.env.REACT_APP_API_URL}/merge-picture`, {
-        //   method: 'POST',
-        //   body: formData,
-        // });
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/merge-picture`, {
+          method: 'POST',
+          body: formData,
+        });
 
-        // if (response.ok) {
-        //   const result = await response.json();
-        //   console.log('Image merged successfully:', result);
-        //   navigate('/view-photo', { state: { takeImage: result.url + '?t=' + new Date().getTime(), background: backgroundImage } });
-        // } else {
-        //   console.error('Failed to merge image');
-        // }
+        if (response.ok) {
+          const result = await response.json();
+          console.log('Image merged successfully:', result);
+          navigate('/view-photo', { state: { takeImage: result.url + '?t=' + new Date().getTime(), background: backgroundImage } });
+        } else {
+          console.error('Failed to merge image');
+        }
       } catch (error) {
         console.error('Error merging image:', error);
       } finally {
@@ -236,30 +243,32 @@ function TypeOfCar() {
   
 
   const onResults = async (results) => {
-    const img = document.getElementById('vbackground')
-    const videoWidth = webcamRef.current.video.videoWidth;
-    const videoHeight = webcamRef.current.video.videoHeight;
+    if (webcamRef.current.video) {
+      const img = document.getElementById('vbackground')
+      const videoWidth = webcamRef.current.video.videoWidth;
+      const videoHeight = webcamRef.current.video.videoHeight;
 
-    canvasRef.current.width = videoWidth;
-    canvasRef.current.height = videoHeight;
+      canvasRef.current.width = videoWidth;
+      canvasRef.current.height = videoHeight;
 
-    const canvasElement = canvasRef.current;
-    const canvasCtx = canvasElement.getContext("2d");
+      const canvasElement = canvasRef.current;
+      const canvasCtx = canvasElement.getContext("2d");
 
-    canvasCtx.save();
-    canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
-    canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
+      canvasCtx.save();
+      canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+      canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
 
-    // Only overwrite existing pixels.
-    canvasCtx.globalCompositeOperation = 'destination-atop';
-    canvasCtx.drawImage(results.segmentationMask, 0, 0, canvasElement.width, canvasElement.height);
+      // Only overwrite existing pixels.
+      canvasCtx.globalCompositeOperation = 'destination-atop';
+      canvasCtx.drawImage(results.segmentationMask, 0, 0, canvasElement.width, canvasElement.height);
 
-    // Only overwrite missing pixels.
+      // Only overwrite missing pixels.
 
-    canvasCtx.globalCompositeOperation = 'destination-over';
-    canvasCtx.drawImage(img, 0, 0, canvasElement.width, canvasElement.height);
-    canvasCtx.restore();
-    setLoad(true);
+      canvasCtx.globalCompositeOperation = 'destination-over';
+      canvasCtx.drawImage(img, 0, 0, canvasElement.width, canvasElement.height);
+      canvasCtx.restore();
+      setLoad(true);
+    }
   }
 
   useEffect(() => {
@@ -309,11 +318,6 @@ function TypeOfCar() {
       >
         Chọn màu xe mà bạn yêu thích
       </Button>
-      {capturedImage && ( // Hiển thị ảnh chụp nếu có
-            <div className="captured-image-container">
-                <img src={capturedImage} alt="Captured" style={{ width: '100%', height: 'auto' }} />
-            </div>
-        )}
       {!isWebcamOpen && (
         <div className="color-grid">
           {colors.map((color, index) => (

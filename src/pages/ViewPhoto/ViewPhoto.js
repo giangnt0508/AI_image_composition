@@ -18,7 +18,7 @@ console.log("takeImage", takeImage);
   };
 
   return (
-    <div className="qr-page">
+    <div className="qr-page-view">
       <Button 
         variant="contained" 
         color="primary" 
@@ -27,12 +27,12 @@ console.log("takeImage", takeImage);
       >
         XEM HÌNH CỦA BẠN
       </Button>
-      <div className="image-grid-qr">
+      <div className="image-grid-qr-view">
         <div>
-            <div className="image-grid-item-qr">
-                <img src={takeImage} alt='image-original' style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <div className="image-grid-item-qr-view">
+                <img src={takeImage} alt='image-original'/>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '15px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '15px' }}>
                 <Button 
                     variant="contained" 
                     color="secondary" 
@@ -41,10 +41,6 @@ console.log("takeImage", takeImage);
                 >
                     CHỤP LẠI
                 </Button>
-            </div>
-        </div>
-        <div>
-            <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '15px' }}>
                 <Button 
                     variant="contained" 
                     color="secondary" 
