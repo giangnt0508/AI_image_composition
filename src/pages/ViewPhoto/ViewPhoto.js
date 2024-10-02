@@ -2,18 +2,20 @@ import React from 'react';
 import { Button, Box } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './ViewPhoto.css';
-
+import { requestFullscreen } from '../../commonFunction/fullscreenUtils';
 function ViewPhoto() {
   const navigate = useNavigate();
   const location = useLocation();
   const backgroundImage = location.state?.background;
   const takeImage = location.state?.takeImage;
-console.log("takeImage", takeImage);
+
   const handleGotoQR = () => {
+    requestFullscreen();
     navigate('/qr', { state: { takeImage: takeImage, background: backgroundImage } });
   };
 
   const handleTakeImageBack = () => {
+    requestFullscreen();
     navigate('/type-of-car', { state: { openWebcam: true, background: backgroundImage } });
   };
 

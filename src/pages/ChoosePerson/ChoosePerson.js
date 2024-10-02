@@ -6,6 +6,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import './ChoosePerson.css';
 // Import commentPeople data
 import commentPeople from './commentPeople.json';
+import { requestFullscreen } from '../../commonFunction/fullscreenUtils';
 
 function ChoosePerson() {
   const navigate = useNavigate();
@@ -14,10 +15,12 @@ function ChoosePerson() {
   const nameCity = location.state?.nameCity;
 
   const handlePersonSelect = (person) => {
+    requestFullscreen();
     navigate('/mux/comment-person', { state: { nameCity: nameCity, selectedPerson: person } });
   };
 
   const handleBack = () => {
+    requestFullscreen();
     navigate('/mux');
   };
 

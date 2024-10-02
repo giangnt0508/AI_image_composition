@@ -6,6 +6,7 @@ import './TypeOfCar.css';
 import personImage from '../../images/ahalfperson.jpg';
 import { SelfieSegmentation  } from '@mediapipe/selfie_segmentation'; // Add this line
 import * as cam from "@mediapipe/camera_utils";
+import { requestFullscreen } from '../../commonFunction/fullscreenUtils';
 
 // Import images for option1
 import option1White from '../../images/option1/F5F5F1.png';
@@ -73,6 +74,7 @@ function TypeOfCar() {
   const location = useLocation();
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
+  const carImageContainerRef = useRef(null); // Thêm ref cho thẻ div
   
   const backgroundImageOriginal = location.state?.background;
   const folderOriginal = location.state?.folder;
@@ -85,6 +87,8 @@ function TypeOfCar() {
   const [selectedOption, setSelectedOption] = useState(folderOriginal);
 
   const [load, setLoad] = useState(false);
+  const [imageWidth, setImageWidth] = useState(0); // Thêm state để lưu chiều rộng hình ảnh
+  const [imageHeight, setImageHeight] = useState(0); // Thêm state để lưu chiều cao hình ảnh
 
 
   const colorImages = {
@@ -151,10 +155,12 @@ function TypeOfCar() {
   };
 
   const handleBack = () => {
+    requestFullscreen();
     navigate('/choose-background');
   };
 
   const handleCapture = async () => {
+    requestFullscreen();
     if (isWebcamOpen) {
       // const imageSrc = webcamRef.current.getScreenshot();
       
@@ -174,19 +180,11 @@ function TypeOfCar() {
           return new Blob([u8arr], { type: mime });
       };
         setIsLoading(true);
-        // const personResponse = await fetch(personImage);
-        // const personBlob = await personResponse.blob();
-        // const personBlob = await fetch(imageSrc).then(res => res.blob());
         const personBlob = dataURLtoBlob(imageSrc);
-
-        // Fetch the landscape image
-        const imageResponse = await fetch(backgroundImage);
-        const landscapeBlob = await imageResponse.blob();
 
         // Create FormData and append both images
         const formData = new FormData();
         formData.append('person_image', personBlob, 'person.jpg');
-        formData.append('landscape_image', landscapeBlob, 'background.jpg');
 
         const response = await fetch(`${process.env.REACT_APP_API_URL}/merge-picture`, {
           method: 'POST',
@@ -211,10 +209,12 @@ function TypeOfCar() {
   };
 
   const handleCloseWebcam = () => {
+    requestFullscreen();
     setIsWebcamOpen(false);
   };
 
   const handleColorSelect = (color) => {
+    requestFullscreen();
     if (color === selectedColor) return;
     
     setSelectedColor(color);
@@ -247,9 +247,15 @@ function TypeOfCar() {
       const img = document.getElementById('vbackground')
       const videoWidth = webcamRef.current.video.videoWidth;
       const videoHeight = webcamRef.current.video.videoHeight;
-
+      console.log("videoWidth", videoWidth);
+      console.log("videoHeight", videoHeight);
+      
       canvasRef.current.width = videoWidth;
       canvasRef.current.height = videoHeight;
+
+      // Cập nhật chiều cao và chiều rộng hình ảnh
+      setImageWidth(img.naturalWidth); // Lưu chiều rộng hình ảnh
+      setImageHeight(img.naturalHeight); // Lưu chiều cao hình ảnh
 
       const canvasElement = canvasRef.current;
       const canvasCtx = canvasElement.getContext("2d");
@@ -333,7 +339,7 @@ function TypeOfCar() {
           ))}
         </div>
       )}
-      <div className="car-image-container">
+      <div className="car-image-container" ref={carImageContainerRef}> {/* Thêm ref vào thẻ div */}
         {isWebcamOpen ? (
           <div >
             <Webcam
@@ -348,12 +354,11 @@ function TypeOfCar() {
               <canvas
                 ref={canvasRef}
                 style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover"
+                  width: "100%", // Đặt chiều rộng canvas là 100%
+                  height: "100%" // Đặt chiều cao canvas là 100%
                 }}
               ></canvas>
-              <img id="vbackground" src={backgroundImage} alt="The Screan" style={{ display: 'none' }} />
+              <img id="vbackground" src={backgroundImage} alt="The Screan"  className="background-image-type-of-car" style={{ display: 'none' }} />
           </div>
         ) : (
           <img src={backgroundImage} alt="Selected background" className="background-image-type-of-car" />

@@ -5,10 +5,10 @@ import '../styles/global.css';
 
 function LayoutMUX({ children }) {
   return (
-    <div className="layout">
+    <div className="layout-map">
       <div className="content">
-        <div className="logo-container">
-        <img src={logoIsuzu} alt="ISUZU logoIsuzu" className="logo" />
+        <div className="logo-container-map">
+        <img src={logoIsuzu} alt="ISUZU logoIsuzu" className="logo-map" />
         </div>
         {children}
       </div>

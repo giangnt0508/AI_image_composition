@@ -2,11 +2,12 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import backgroundImage from '../../images/mainPage.jpg';
 import './mainPage.css';
-
+import { requestFullscreen } from '../../commonFunction/fullscreenUtils';
 function MainPage() {
   const navigate = useNavigate();
 
   const handleStart = () => {
+    requestFullscreen();
     navigate('/choose-background');
   };
 

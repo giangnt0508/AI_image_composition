@@ -15,6 +15,7 @@ import imageNguyenVanDuy from './image/NguyenVanDuy.png';
 import imageThanh from './image/Thanh.png';
 import imageTranQuocDat from './image/TranQuocDat.png';
 import './CommentPerson.css';
+import { requestFullscreen } from '../../commonFunction/fullscreenUtils';
 
 function CommentPerson() {
   const navigate = useNavigate();
@@ -105,6 +106,7 @@ function CommentPerson() {
   }, [selectedPerson]);
 
   const handleBack = () => {
+    requestFullscreen();
     navigate('/mux/choose-person', { state: { nameCity: nameCity } });
   };
 

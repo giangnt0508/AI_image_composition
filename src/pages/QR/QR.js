@@ -3,7 +3,7 @@ import { Button, Box } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { QRCodeSVG } from 'qrcode.react';
 import './QR.css';
-
+import { requestFullscreen } from '../../commonFunction/fullscreenUtils';
 function QR() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -11,10 +11,12 @@ function QR() {
   const takeImage = location.state?.takeImage;
 
   const handleBack = () => {
-    navigate('/');
+    requestFullscreen();
+    navigate('/main-page');
   };
 
   const handleTakeImageBack = () => {
+    requestFullscreen();
     navigate('/type-of-car', { state: { openWebcam: true, background: backgroundImage } });
   };
 

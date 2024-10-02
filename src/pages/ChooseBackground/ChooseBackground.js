@@ -9,16 +9,19 @@ import option5 from '../../images/option5.jpg';
 import option6 from '../../images/option6.jpg';
 import { useNavigate } from 'react-router-dom';
 import './ChooseBackground.css';
+import { requestFullscreen } from '../../commonFunction/fullscreenUtils';
 
 function ChooseBackground() {
   const navigate = useNavigate();
 
   const handleBackgroundSelect = (selectedImage, folder) => {
+    requestFullscreen();
     navigate('/type-of-car', { state: { background: selectedImage, folder: folder } });
   };
 
   const handleBack = () => {
-    navigate('/');
+    requestFullscreen();
+    navigate('/main-page');
   };
 
   const images = [option1, option2, option3, option4, option5, option6];
