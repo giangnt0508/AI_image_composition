@@ -1,6 +1,6 @@
 import React from 'react';
 import logoIsuzu from '../images/logo-isuzu.png';
-import imageBackground from '../images/isuzu-background.png';
+import imageBackground from '../images/VetDo.png';
 import '../styles/global.css';
 
 function LayoutMUX({ children }) {
@@ -12,9 +12,8 @@ function LayoutMUX({ children }) {
         </div>
         {children}
       </div>
-      <div className="background-image">
-        <img src={imageBackground} alt="Isuzu background" />
-      </div>
+        <img src={imageBackground} alt="Isuzu background" className="background-image-mux" />
+
     </div>
   );
 }

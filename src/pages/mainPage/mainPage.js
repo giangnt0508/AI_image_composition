@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import backgroundImage from '../../images/mainPage.jpg';
 import './mainPage.css';
 import { requestFullscreen } from '../../commonFunction/fullscreenUtils';
+
 function MainPage() {
   const navigate = useNavigate();
 

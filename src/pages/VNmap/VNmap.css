@@ -3,14 +3,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
+  padding: 20px 20px 60px 20px;
   font-family: sans-serif;
   text-align: center;
 }
 
 
 .tooltip {
-  width: 111px;
+  width: 80px;
+  height: 55px;
   background-color: #8B0000;
   border-radius: 10px;
   filter: drop-shadow(0px 0px 15px rgba(129, 129, 129, 0.25));
@@ -33,6 +34,15 @@
   margin: 0;
 }
 
+.background-image-map {
+  width: 680px;
+  height: 630px;
+  object-fit: contain;
+}
+
+.vietnam-map {
+  color: #7c0a0200
+}
 
 .leaflet-container {
   margin: 0 auto;

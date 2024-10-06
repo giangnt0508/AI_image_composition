@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@mui/material';
 import { requestFullscreen } from '../../commonFunction/fullscreenUtils';
 function Permission() {
   const navigate = useNavigate();
+  const [isFullScreen, setIsFullScreen] = useState(false);
+
+  const handleClickFullScreen = () => {
+    requestFullscreen(); // Call the new function
+    setIsFullScreen(true);
+  };
 
   const handleClickCar = () => {
     requestFullscreen(); // Call the new function
@@ -26,24 +32,39 @@ function Permission() {
         height: '100vh' // Full height to center vertically
       }}
     >
-      <div>
-          <Button variant="contained" 
-            color="primary" 
-            className="mui-button"
-            onClick={handleClickVNMap} 
-          >
-          TRUY CẬP STORY WALL
-        </Button>
-      </div>
-      <div>
-        <Button variant="contained" 
+      {!isFullScreen && (
+        <div>
+            <Button variant="contained" 
               color="primary" 
               className="mui-button"
-              onClick={handleClickCar} 
+              onClick={handleClickFullScreen} 
+            >
+            FULL SCREEN
+          </Button>
+        </div>
+      )}
+      {isFullScreen && (
+        <>
+          <div>
+              <Button variant="contained" 
+                color="primary" 
+                className="mui-button"
+                onClick={handleClickVNMap} 
               >
-          TRUY CẬP CHỤP HÌNH AI
-        </Button>
-      </div>
+              TRUY CẬP STORY WALL
+            </Button>
+          </div>
+          <div>
+            <Button variant="contained" 
+                  color="primary" 
+                  className="mui-button"
+                  onClick={handleClickCar} 
+                  >
+            TRUY CẬP CHỤP HÌNH AI
+          </Button>
+          </div>
+        </>
+      )}
     </div>
     
   );

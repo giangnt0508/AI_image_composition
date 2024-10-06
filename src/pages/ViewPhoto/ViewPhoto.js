@@ -3,6 +3,7 @@ import { Button, Box } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './ViewPhoto.css';
 import { requestFullscreen } from '../../commonFunction/fullscreenUtils';
+
 function ViewPhoto() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -29,10 +30,11 @@ function ViewPhoto() {
       >
         XEM HÌNH CỦA BẠN
       </Button>
-      <div className="image-grid-qr-view">
+      <div className="image-grid-view">
         <div>
             <div className="image-grid-item-qr-view">
-                <img src={takeImage} alt='image-original'/>
+                <img src={takeImage.trim()} alt='image-original' onLoad={() => console.log('Image loaded')} 
+         onError={() => console.log('Image failed to load')} />
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '15px' }}>
                 <Button 

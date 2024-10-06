@@ -3,70 +3,77 @@ import { Button, Box } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Webcam from 'react-webcam';
 import './TypeOfCar.css';
-import personImage from '../../images/ahalfperson.jpg';
 import { SelfieSegmentation  } from '@mediapipe/selfie_segmentation'; // Add this line
 import * as cam from "@mediapipe/camera_utils";
 import { requestFullscreen } from '../../commonFunction/fullscreenUtils';
-
 // Import images for option1
-import option1White from '../../images/option1/F5F5F1.png';
-import option1Gray from '../../images/option1/B1B3B3.png';
-import option1DarkGray from '../../images/option1/4E5D5E.png';
-import option1Black from '../../images/option1/1A1A1A.png';
-import option1Red from '../../images/option1/C51C1C.png';
-import option1Brown from '../../images/option1/7B4B38.png';
-import option1Blue from '../../images/option1/2C3E83.png';
-import option1LightGray from '../../images/option1/F8F8F7.png';
+import option1White from '../../images/option1/F5F5F1.jpg';
+import option1Gray from '../../images/option1/B1B3B3.jpg';
+import option1DarkGray from '../../images/option1/4E5D5E.jpg';
+import option1Black from '../../images/option1/1A1A1A.jpg';
+import option1Red from '../../images/option1/C51C1C.jpg';
+import option1Brown from '../../images/option1/7B4B38.jpg';
+import option1Blue from '../../images/option1/2C3E83.jpg';
+import option1LightGray from '../../images/option1/F8F8F7.jpg';
 
 // Import images for option2
-import option2White from '../../images/option2/F5F5F1.png';
-import option2Gray from '../../images/option2/B1B3B3.png';
-import option2DarkGray from '../../images/option2/4E5D5E.png';
-import option2Black from '../../images/option2/1A1A1A.png';
-import option2Red from '../../images/option2/C51C1C.png';
-import option2Brown from '../../images/option2/7B4B38.png';
-import option2Blue from '../../images/option2/2C3E83.png';
-import option2LightGray from '../../images/option2/F8F8F7.png';
+import option2White from '../../images/option2/F5F5F1.jpg';
+import option2Gray from '../../images/option2/B1B3B3.jpg';
+import option2DarkGray from '../../images/option2/4E5D5E.jpg';
+import option2Black from '../../images/option2/1A1A1A.jpg';
+import option2Red from '../../images/option2/C51C1C.jpg';
+import option2Brown from '../../images/option2/7B4B38.jpg';
+import option2Blue from '../../images/option2/2C3E83.jpg';
+import option2LightGray from '../../images/option2/F8F8F7.jpg';
 
 // Import images for option3
-import option3White from '../../images/option3/F5F5F1.png';
-import option3Gray from '../../images/option3/B1B3B3.png';
-import option3DarkGray from '../../images/option3/4E5D5E.png';
-import option3Black from '../../images/option3/1A1A1A.png';
-import option3Red from '../../images/option3/C51C1C.png';
-import option3Brown from '../../images/option3/7B4B38.png';
-import option3Blue from '../../images/option3/2C3E83.png';
-import option3LightGray from '../../images/option3/F8F8F7.png';
+import option3White from '../../images/option3/F5F5F1.jpg';
+import option3Gray from '../../images/option3/B1B3B3.jpg';
+import option3DarkGray from '../../images/option3/4E5D5E.jpg';
+import option3Black from '../../images/option3/1A1A1A.jpg';
+import option3Red from '../../images/option3/C51C1C.jpg';
+import option3Brown from '../../images/option3/7B4B38.jpg';
+import option3Blue from '../../images/option3/2C3E83.jpg';
+import option3LightGray from '../../images/option3/F8F8F7.jpg';
 
 // Import images for option4
-import option4White from '../../images/option4/F5F5F1.png';
-import option4Gray from '../../images/option4/B1B3B3.png';
-import option4DarkGray from '../../images/option4/4E5D5E.png';
-import option4Black from '../../images/option4/1A1A1A.png';
-import option4Red from '../../images/option4/C51C1C.png';
-import option4Brown from '../../images/option4/7B4B38.png';
-import option4Blue from '../../images/option4/2C3E83.png';
-import option4LightGray from '../../images/option4/F8F8F7.png';
+import option4White from '../../images/option4/F5F5F1.jpg';
+import option4Gray from '../../images/option4/B1B3B3.jpg';
+import option4DarkGray from '../../images/option4/4E5D5E.jpg';
+import option4Black from '../../images/option4/1A1A1A.jpg';
+import option4Red from '../../images/option4/C51C1C.jpg';
+import option4Brown from '../../images/option4/7B4B38.jpg';
+import option4Blue from '../../images/option4/2C3E83.jpg';
+import option4LightGray from '../../images/option4/F8F8F7.jpg';
 
 // Import images for option5
-import option5White from '../../images/option5/F5F5F1.png';
-import option5Gray from '../../images/option5/B1B3B3.png';
-import option5DarkGray from '../../images/option5/4E5D5E.png';
-import option5Black from '../../images/option5/1A1A1A.png';
-import option5Red from '../../images/option5/C51C1C.png';
-import option5Brown from '../../images/option5/7B4B38.png';
-import option5Blue from '../../images/option5/2C3E83.png';
-import option5LightGray from '../../images/option5/F8F8F7.png';
+import option5White from '../../images/option5/F5F5F1.jpg';
+import option5Gray from '../../images/option5/B1B3B3.jpg';
+import option5DarkGray from '../../images/option5/4E5D5E.jpg';
+import option5Black from '../../images/option5/1A1A1A.jpg';
+import option5Red from '../../images/option5/C51C1C.jpg';
+import option5Brown from '../../images/option5/7B4B38.jpg';
+import option5Blue from '../../images/option5/2C3E83.jpg';
+import option5LightGray from '../../images/option5/F8F8F7.jpg';
 
 // Import images for option6
-import option6White from '../../images/option6/F5F5F1.png';
-import option6Gray from '../../images/option6/B1B3B3.png';
-import option6DarkGray from '../../images/option6/4E5D5E.png';
-import option6Black from '../../images/option6/1A1A1A.png';
-import option6Red from '../../images/option6/C51C1C.png';
-import option6Brown from '../../images/option6/7B4B38.png';
-import option6Blue from '../../images/option6/2C3E83.png';
-import option6LightGray from '../../images/option6/F8F8F7.png';
+import option6White from '../../images/option6/F5F5F1.jpg';
+import option6Gray from '../../images/option6/B1B3B3.jpg';
+import option6DarkGray from '../../images/option6/4E5D5E.jpg';
+import option6Black from '../../images/option6/1A1A1A.jpg';
+import option6Red from '../../images/option6/C51C1C.jpg';
+import option6Brown from '../../images/option6/7B4B38.jpg';
+import option6Blue from '../../images/option6/2C3E83.jpg';
+import option6LightGray from '../../images/option6/F8F8F7.jpg';
+
+import option7White from '../../images/option7/F5F5F1.jpg';
+import option7Gray from '../../images/option7/B1B3B3.jpg';
+import option7DarkGray from '../../images/option7/4E5D5E.jpg';
+import option7Black from '../../images/option7/1A1A1A.jpg';
+import option7Red from '../../images/option7/C51C1C.jpg';
+import option7Brown from '../../images/option7/7B4B38.jpg';
+import option7Blue from '../../images/option7/2C3E83.jpg';
+import option7LightGray from '../../images/option7/F8F8F7.jpg';
 
 
 function TypeOfCar() {
@@ -152,6 +159,16 @@ function TypeOfCar() {
       '#2C3E83': option6Blue,
       '#F8F8F7': option6LightGray,
     },
+    option7: {
+      '#F5F5F1': option7White,
+      '#B1B3B3': option7Gray,
+      '#4E5D5E': option7DarkGray,
+      '#1A1A1A': option7Black,
+      '#C51C1C': option7Red,
+      '#7B4B38': option7Brown,
+      '#2C3E83': option7Blue,
+      '#F8F8F7': option7LightGray,
+    },
   };
 
   const handleBack = () => {
@@ -188,13 +205,13 @@ function TypeOfCar() {
 
         const response = await fetch(`${process.env.REACT_APP_API_URL}/merge-picture`, {
           method: 'POST',
-          body: formData,
+          body: formData
         });
-
+        console.log("response: ", response);
         if (response.ok) {
+          setIsWebcamOpen(false);
           const result = await response.json();
-          console.log('Image merged successfully:', result);
-          navigate('/view-photo', { state: { takeImage: result.url + '?t=' + new Date().getTime(), background: backgroundImage } });
+          navigate('/view-photo', { state: { takeImage: result.url, background: backgroundImage } });
         } else {
           console.error('Failed to merge image');
         }
@@ -240,47 +257,64 @@ function TypeOfCar() {
 
 
   const colors = ['#F5F5F1', '#B1B3B3', '#4E5D5E', '#1A1A1A', '#C51C1C', '#7B4B38', '#2C3E83', '#F8F8F7'];
-  
 
-  const onResults = async (results) => {
-    if (webcamRef.current.video) {
-      const img = document.getElementById('vbackground')
-      const videoWidth = webcamRef.current.video.videoWidth;
-      const videoHeight = webcamRef.current.video.videoHeight;
-      console.log("videoWidth", videoWidth);
-      console.log("videoHeight", videoHeight);
-      
-      canvasRef.current.width = videoWidth;
-      canvasRef.current.height = videoHeight;
+  // gốc
+const onResults = async (results) => {
+  if (webcamRef.current.video) {
+    const img = document.getElementById('vbackground');
 
-      // Cập nhật chiều cao và chiều rộng hình ảnh
-      setImageWidth(img.naturalWidth); // Lưu chiều rộng hình ảnh
-      setImageHeight(img.naturalHeight); // Lưu chiều cao hình ảnh
+    const videoWidth = 1280;
+    const videoHeight = 960;
 
-      const canvasElement = canvasRef.current;
-      const canvasCtx = canvasElement.getContext("2d");
+    // Set canvas dimensions
+    canvasRef.current.width = videoWidth;
+    canvasRef.current.height = videoHeight;
 
-      canvasCtx.save();
-      canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
-      canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
+    const canvasElement = canvasRef.current;
+    const canvasCtx = canvasElement.getContext("2d");
 
-      // Only overwrite existing pixels.
-      canvasCtx.globalCompositeOperation = 'destination-atop';
-      canvasCtx.drawImage(results.segmentationMask, 0, 0, canvasElement.width, canvasElement.height);
+    // Calculate scaled size for webcam feed
+    const scaledWidth = videoWidth * 0.65;
+    
+    const scaledHeight = videoHeight;
 
-      // Only overwrite missing pixels.
+    // Set webcam position (bottom left corner)
+    const xPosition = 0;
+    const yPosition = videoHeight - scaledHeight;
 
-      canvasCtx.globalCompositeOperation = 'destination-over';
-      canvasCtx.drawImage(img, 0, 0, canvasElement.width, canvasElement.height);
-      canvasCtx.restore();
-      setLoad(true);
-    }
+    canvasCtx.save();
+    canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+
+    // Flip the webcam feed horizontally
+    canvasCtx.translate(scaledWidth, 0); // Move context to the right by scaledWidth
+    canvasCtx.scale(-1, 1); // Flip the context horizontally
+
+    // Draw the flipped webcam feed with 70% scaling
+    canvasCtx.drawImage(results.image, -xPosition, yPosition, scaledWidth, scaledHeight);
+
+    // Only overwrite existing pixels for the segmentation mask.
+    canvasCtx.globalCompositeOperation = 'destination-atop';
+    // Draw the flipped segmentation mask
+    canvasCtx.drawImage(results.segmentationMask, -xPosition, yPosition, scaledWidth, scaledHeight);
+
+    // Reset transformation for drawing the background
+    canvasCtx.setTransform(1, 0, 0, 1, 0, 0);
+
+    // Only overwrite missing pixels.
+    canvasCtx.globalCompositeOperation = 'destination-over';
+    canvasCtx.drawImage(img, 0, 0, canvasElement.width, canvasElement.height);
+
+    canvasCtx.restore();
+    setLoad(true);
   }
+};
+  
+  
 
   useEffect(() => {
     const selfieSegmentation = new SelfieSegmentation({
       locateFile: (file) => {
-        return `https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/${file}`;
+        return `https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation@0.1/${file}`;
       },
     });
 
@@ -304,7 +338,7 @@ function TypeOfCar() {
             }
           },
           width: 1280,
-          height: 720
+          height: 960
         });
 
         camera.start();
@@ -322,7 +356,7 @@ function TypeOfCar() {
         className="mui-button"
         disabled
       >
-        Chọn màu xe mà bạn yêu thích
+        {!isWebcamOpen ? 'Chọn màu xe mà bạn yêu thích' : 'Mời bạn tạo dáng chụp'}
       </Button>
       {!isWebcamOpen && (
         <div className="color-grid">
@@ -369,17 +403,17 @@ function TypeOfCar() {
           variant="contained" 
           color="secondary" 
           className="mui-button"
-          onClick={isWebcamOpen ? handleCloseWebcam : handleBack}
+          onClick={handleCapture}
         >
-          {isWebcamOpen ? 'HỦY' : 'TRỞ LẠI'}
+          {isWebcamOpen ? 'CHỤP' : 'MỞ CAMERA'}
         </Button>
         <Button 
           variant="contained" 
           color="secondary" 
           className="mui-button"
-          onClick={handleCapture}
+          onClick={isWebcamOpen ? handleCloseWebcam : handleBack}
         >
-          {isWebcamOpen ? 'CHỤP' : 'MỞ CAMERA'}
+          {isWebcamOpen ? 'HỦY' : 'TRỞ LẠI'}
         </Button>
       </Box>
       {isLoading && <div className="loading-overlay">Đang xử lý...</div>}

@@ -6,7 +6,7 @@ body, html {
 
 #root {
   min-height: 100vh;
-  background: radial-gradient(circle, #f0271d 10%, #7c0a02 100%);
+  background: radial-gradient(circle, #f0271d 10%, #480001 100%);
 }
 
 .layout {
@@ -19,7 +19,7 @@ body, html {
   position: relative;
   min-height: 100vh;
   overflow-x: hidden;
-  background: radial-gradient(circle, #f0271d 10%, #7c0a02 100%);
+  background: radial-gradient(circle, #f0271d 10%, #480001 100%);
 }
 
 .background-image {
@@ -37,6 +37,21 @@ body, html {
   height: 100%;
   object-fit: contain; /* Default for desktop */
 }
+
+.background-image-mux {
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+  height: 20vh;
+  object-fit: cover;
+  object-position: top;
+}
+
+/* .background-image-mux img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+} */
 
 .content {
   position: relative;
@@ -60,7 +75,7 @@ body, html {
   max-height: 100px;
 }
 .logo-map {
-  max-width: 100px;
+  max-width: 240px;
   align-self: center;
   max-height: 100px;
 }

@@ -104,16 +104,10 @@
   
 .mui-button {
   margin: 10px 0;
-  /* background: linear-gradient(
-    to right,
-    #FF6347,
-    #8B0000,
-    #FF6347
-  ) !important; */
   background: #8B0000 !important;
   color: white !important;
   font-weight: bold !important;
-  border-radius: 20px !important;
+  border-radius: 50px !important;
   border: 1px solid white !important;
 }
 

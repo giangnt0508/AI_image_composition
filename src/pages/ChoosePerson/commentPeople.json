@@ -1,66 +1,13 @@
 {
-    "TP. Hồ Chí Minh": [
-    {
-        "ten": "Anh Nguyễn Văn A",
-        "cam_nghi": "Hãng xe Isuzu mang lại sự tin cậy và chất lượng, rất phù hợp cho việc vận chuyển hàng hóa tại chợ."
-    },
-    {
-        "ten": "Chị Trần Thị B",
-        "cam_nghi": "Isuzu cung cấp những chiếc xe vận tải lý tưởng cho các hoạt động du lịch và giao thông trong thành phố."
-    }
-    ],
-    "Hà Nội": [
-    {
-        "ten": "Anh Lê Văn C",
-        "cam_nghi": "Isuzu là sự lựa chọn tuyệt vời cho việc vận chuyển và khám phá các địa điểm lịch sử."
-    },
-    {
-        "ten": "Anh Phạm Thị D",
-        "cam_nghi": "Với thiết kế bền bỉ, xe Isuzu rất phù hợp cho việc di chuyển qua các con phố hẹp và đông đúc."
-    },
-    {
-        "ten": "Chị Trần Thị C",
-        "cam_nghi": "Isuzu cung cấp những chiếc xe vận tải lý tưởng cho các hoạt động du lịch và giao thông trong thành phố."
-    },
-    {
-        "ten": "Chị Trần Thị D",
-        "cam_nghi": "Isuzu cung cấp những chiếc xe vận tải lý tưởng cho các hoạt động du lịch và giao thông trong thành phố."
-    }
-    ],
-    "Đà Nẵng": [
-    {
-        "ten": "Anh Lê Văn A",
-        "cam_nghi": "Isuzu là sự lựa chọn tuyệt vời cho việc vận chuyển và khám phá các địa điểm lịch sử."
-    },
-    {
-        "ten": "Anh Nguyễn Văn E",
-        "cam_nghi": "Xe Isuzu rất tiện lợi cho các chuyến đi đến bãi biển, đáp ứng nhu cầu di chuyển an toàn và thoải mái."
-    },
-    {
-        "ten": "Chị Trần Thị F",
-        "cam_nghi": "Isuzu mang đến sự sang trọng và ấn tượng cho các chuyến tham quan thành phố."
-    }
-    ],
+    "TP. Hồ Chí Minh": [],
+    "Hà Nội": [],
+    "Đà Nẵng": [],
     "Bình Dương": [
     {
         "ten": "Anh Nguyễn Văn Duy",
         "cam_nghi": "Mình đã từng chạy xe tải Isuzu, xe rất tiết kiệm và ít hỏng vặt, nên mình đã tin tưởng chọn mua chiếc mu-X 7 chỗ này để cân bằng giữa công việc và gia đình. Người chạy dịch vụ như mình chọn mu-X vì bền bỉ, rộng rãi và vận hành êm ái. Chi phí bảo dưỡng thấp đảm bảo lợi nhuận. Mức tiêu hao nhiên liệu chỉ 6 lít/100km."
-    },
-    {
-        "ten": "Chị Phạm Thị H",
-        "cam_nghi": "Xe Isuzu là lựa chọn phổ biến cho sinh viên và giảng viên trong việc di chuyển hàng ngày."
-    }
-    ],
-    "Quảng Trị": [
-    {
-        "ten": "Anh Nguyễn Văn I",
-        "cam_nghi": "Isuzu cung cấp những chiếc xe phù hợp cho các hoạt động vận hành và quản lý hiệu quả."
-    },
-    {
-        "ten": "Chị Trần Thị J",
-        "cam_nghi": "Sử dụng xe Isuzu tạo ra sự thuận tiện trong việc tổ chức sự kiện tại công viên."
-    }
-    ],
+    }],
+    "Quảng Trị": [],
     "Đồng Nai": [
     {
         "ten": "Anh Đào Ánh Phi",

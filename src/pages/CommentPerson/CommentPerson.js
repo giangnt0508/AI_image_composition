@@ -110,6 +110,11 @@ function CommentPerson() {
     navigate('/mux/choose-person', { state: { nameCity: nameCity } });
   };
 
+  const handleHome = () => {
+    requestFullscreen();
+    navigate('/mux');
+  };
+
   return (
     <div className="choose-background">
       <Button 
@@ -142,15 +147,25 @@ function CommentPerson() {
         ) : (
           <canvas ref={canvasRef}></canvas>
         )}
+        <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '15px', width: '100%' }}>
+            <Button 
+                variant="contained" 
+                color="secondary" 
+                className="mui-button"
+                onClick={handleBack}
+            >
+                TRỞ LẠI
+            </Button>
+            <Button 
+                variant="contained" 
+                color="secondary" 
+                className="mui-button"
+                onClick={handleHome}
+            >
+                HOME
+            </Button>
+        </div>
       </Box>
-      <Button 
-        variant="contained" 
-        color="secondary" 
-        className="mui-button"
-        onClick={handleBack}
-      >
-        TRỞ LẠI
-      </Button>
     </div>
   );
 }
