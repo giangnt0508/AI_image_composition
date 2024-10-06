@@ -1,0 +1,40 @@
+.comment-frame {
+  position: relative;
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin: 20px 0;
+  background-color: #f9f9f9;
+  color: black;
+}
+
+.comment-logo {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 50px;  /* Điều chỉnh kích thước logo theo nhu cầu */
+  height: auto;
+}
+
+.comment-text {
+  margin-top: 30px;  /* Để tránh chồng lấn với logo */
+}
+
+.canvas-container {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+
+canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+.person-image {
+  border: 3px solid white; /* White border */
+  border-radius: 5px; /* Rounded corners */
+  width: 100%; /* Adjust as needed */
+  height: auto; /* Maintain aspect ratio */
+  object-fit: cover; /* Cover the area */
+}

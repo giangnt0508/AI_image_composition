@@ -3,9 +3,16 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ChooseBackground from './pages/ChooseBackground/ChooseBackground';
 import TypeOfCar from './pages/TypeOfCar/TypeOfCar';
-import QR from './pages/QR/QR';
+import MainPage from './pages/mainPage/mainPage';
 import Layout from './components/Layout';
+import LayoutMUX from './components/LayoutMUX';
+import QR from './pages/QR/QR';
 import './App.css';
+import VNmap from './pages/VNmap/VNmap';
+import ChoosePerson from './pages/ChoosePerson/ChoosePerson';
+import CommentPerson from './pages/CommentPerson/CommentPerson';
+import Permission from './pages/Permission/Permission';
+import ViewPhoto from './pages/ViewPhoto/ViewPhoto';
 
 const theme = createTheme({
   palette: {
@@ -22,13 +29,29 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Router>
-      <Layout>
         <Routes>
-          <Route path="/" element={<ChooseBackground />} />
-          <Route path="/type-of-car" element={<TypeOfCar />} />
-          <Route path="/qr" element={<QR />} />
-          </Routes>
-        </Layout>
+          <Route path="/" element={<Permission />} />
+          <Route path="/main-page" element={<MainPage />} />
+          <Route path="/mux/*" element={
+            <LayoutMUX>
+              <Routes>
+                <Route path="/" element={<VNmap />} />
+                <Route path="/choose-person" element={<ChoosePerson/>} />
+                <Route path="/comment-person" element={<CommentPerson/>} />
+              </Routes>
+            </LayoutMUX>
+          } />
+          <Route path="/*" element={
+            <Layout>
+              <Routes>
+                <Route path="/choose-background" element={<ChooseBackground />} />
+                <Route path="/type-of-car" element={<TypeOfCar />} />
+                <Route path="/view-photo" element={<ViewPhoto />} />
+                <Route path="/qr" element={<QR />} />
+              </Routes>
+            </Layout>
+          } />
+        </Routes>
       </Router>
     </ThemeProvider>
   );

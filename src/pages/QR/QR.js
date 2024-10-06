@@ -3,19 +3,20 @@ import { Button, Box } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { QRCodeSVG } from 'qrcode.react';
 import './QR.css';
-
+import { requestFullscreen } from '../../commonFunction/fullscreenUtils';
 function QR() {
   const navigate = useNavigate();
   const location = useLocation();
   const backgroundImage = location.state?.background;
   const takeImage = location.state?.takeImage;
-  console.log("takeImage", takeImage);
 
   const handleBack = () => {
-    navigate('/');
+    requestFullscreen();
+    navigate('/main-page');
   };
 
   const handleTakeImageBack = () => {
+    requestFullscreen();
     navigate('/type-of-car', { state: { openWebcam: true, background: backgroundImage } });
   };
 
@@ -30,37 +31,28 @@ function QR() {
         Quét mã QR code, tải hình ảnh vào máy của bạn
       </Button>
       <div className="image-grid-qr">
-        <div>
-            <div className="image-grid-item-qr">
-                <img src={takeImage} alt='image-original' style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '15px' }}>
-                <Button 
-                    variant="contained" 
-                    color="secondary" 
-                    className="mui-button"
-                    onClick={handleTakeImageBack}
-                >
-                    CHỤP LẠI
-                </Button>
-            </div>
+        <div className="image-grid-item-qr">
+            <a href={takeImage} download="background-image.jpg" style={{ display: 'block', width: '100%', height: '100%' }}>
+                <QRCodeSVG value={takeImage} width="100%" height="100%" bgColor="#FFFFFF" fgColor="#FF0000"/>
+            </a>
         </div>
-        <div>
-            <div className="image-grid-item-qr">
-                <a href={takeImage} download="background-image.jpg" style={{ display: 'block', width: '100%', height: '100%' }}>
-                    <QRCodeSVG value={takeImage} width="100%" height="100%" bgColor="#FFFFFF" fgColor="#FF0000"/>
-                </a>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '15px' }}>
-                <Button 
-                    variant="contained" 
-                    color="secondary" 
-                    className="mui-button"
-                    onClick={handleBack}
-                >
-                    HOME
-                </Button>
-            </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '15px' }}>
+            <Button 
+                variant="contained" 
+                color="secondary" 
+                className="mui-button"
+                onClick={handleTakeImageBack}
+            >
+                CHỤP LẠI
+            </Button>
+            <Button 
+                variant="contained" 
+                color="secondary" 
+                className="mui-button"
+                onClick={handleBack}
+            >
+                HOME
+            </Button>
         </div>
       </div>
     </div>
