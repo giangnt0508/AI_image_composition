@@ -17,7 +17,8 @@ function QR() {
 
   const handleTakeImageBack = () => {
     requestFullscreen();
-    navigate('/type-of-car', { state: { openWebcam: true, background: backgroundImage } });
+    // navigate('/type-of-car', { state: { openWebcam: true, background: backgroundImage } });
+    navigate('/choose-background');
   };
 
   return (
@@ -43,7 +44,7 @@ function QR() {
                 className="mui-button"
                 onClick={handleTakeImageBack}
             >
-                CHỤP LẠI
+                CHỤP THÊM ẢNH
             </Button>
             <Button 
                 variant="contained" 

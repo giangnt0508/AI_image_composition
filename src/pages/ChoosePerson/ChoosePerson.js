@@ -74,7 +74,7 @@ function ChoosePerson() {
                     className="image-choose-person"
                     effect="blur" 
                 />
-                <div className="person-name">{person.ten}</div>
+                {/* <div className="person-name">{person.ten}</div> */}
             </div>
             ))}
         </div>

@@ -1,26 +1,27 @@
 import React, { useCallback } from 'react';
-import { MapContainer, GeoJSON, Popup } from "react-leaflet";
+import { MapContainer, Popup } from "react-leaflet";
 import { Button } from '@mui/material';
-import vietnamJson from "./vietnam.json"; // Make sure to add this file to your project
 import { useNavigate } from 'react-router-dom';
 import './VNmap.css';
 import ImageMap from "../../images/map/map.png"
 
 // Cập nhật dữ liệu thành phố với tọa độ chính xác
-const cityData = {
-  "VN-54": { name: "SaPa", value: 14},
-  "VN-04": { name: "Cao Bằng", value: 14},
-  "VN-02": { name: "Lào Cai", value: 37},
-  "VN-57": { name: "Bình Dương", value: 1},
-  "VN-25": { name: "Quảng Trị", value: 3 },
-  "VN-DN": { name: "Đà Nẵng", value: 1},
-  "VN-HN": { name: "Hà Nội", value: 18 },
-  "VN-SG": { name: "Hồ Chí Minh", value: 20 },
-  "VN-39": {name: "Đồng Nai", value: 20 },
-  "VN-35": {name: "Lâm Đồng", value: 20 },
-  "VN-72": {name: "Đăk Nông", value: 20 },
-};
-const cityDataLocation = {
+const cityDataLocationMobile = {
+  "VN-02": { name: "Lào Cai", index: "LC", coordinates: [21.05, 109.05] },
+  "VN-04": { name: "Cao Bằng", index: "CB", coordinates: [22.03, 119.85] },
+  "VN-54": { name: "SaPa", index: "SP", coordinates: [21.35, 109.71] },
+  "VN-HN": { name: "Hà Nội", index: "HN", coordinates: [22.53, 119.00] },
+  "VN-51": { name: "Vinh", index: "V", coordinates: [23.05, 116.9] },
+  "VN-DN": { name: "Đà Nẵng", index: "ĐN", coordinates: [23.45, 121.11] },
+  "VN-25": { name: "Kon Tum", index: "KT", coordinates: [23.09, 112.94] },
+  "VN-35": {name: "Lâm Đồng", index: "LD", coordinates: [22.92, 119.52] },
+  "VN-57": { name: "Bình Dương", index: "BD", coordinates: [24.16, 108.07] },
+  "VN-72": {name: "Đăk Nông", index: "DK", coordinates: [25.01, 111.27] },
+  "VN-39": {name: "Đồng Nai", index: "ĐNa", coordinates: [24.12, 110.02] },
+  "VN-SG": { name: "Hồ Chí Minh", index: "HCM", coordinates: [25.45, 117.92] },
+}
+
+const cityDataLocationLaptop = {
   "VN-02": { name: "Lào Cai", index: "LC", coordinates: [20.05, 110.85] },
   "VN-04": { name: "Cao Bằng", index: "CB", coordinates: [21.23, 128.85] },
   "VN-54": { name: "SaPa", index: "SP", coordinates: [19.65, 111.51] },
@@ -29,9 +30,9 @@ const cityDataLocation = {
   "VN-DN": { name: "Đà Nẵng", index: "ĐN", coordinates: [22.75, 131.52] },
   "VN-25": { name: "Kon Tum", index: "KT", coordinates: [22.20, 116.54] },
   "VN-35": {name: "Lâm Đồng", index: "LD", coordinates: [21.40, 128.67] },
-  "VN-72": {name: "Đăk Nông", index: "DK", coordinates: [23.15, 113.87] },
-  "VN-57": { name: "Bình Dương", index: "BD", coordinates: [24.95, 108.77] },
-  "VN-39": {name: "Đồng Nai", index: "ĐN", coordinates: [22.85, 111.62] },
+  "VN-57": { name: "Bình Dương", index: "BD", coordinates: [22.95, 108.77] },
+  "VN-72": {name: "Đăk Nông", index: "DK", coordinates: [25.15, 113.87] },
+  "VN-39": {name: "Đồng Nai", index: "ĐNa", coordinates: [22.85, 111.62] },
   "VN-SG": { name: "TP. Hồ Chí Minh", index: "HCM", coordinates: [24.55, 125.70] },
 };
 
@@ -39,20 +40,11 @@ const colors = ["#e1e245", "#00bb5f", "#9dce31", "#00c66e"]; // Define the color
 
 function VNmap() {
   const navigate = useNavigate();
+  const isMobile = window.innerWidth <= 479; // Check if the current device is mobile
 
-  const onEachFeature = useCallback((feature, layer) => {
-    if (!feature?.properties?.code) return;
+  const cityDataLocation = isMobile ? cityDataLocationMobile : cityDataLocationLaptop; // Use the appropriate city data based on the device
+  // const cityDataLocation = cityDataLocationLaptop; // Use the appropriate city data based on the device
 
-    const currentCity = cityData[feature.properties.code];
-    if (currentCity) {
-      // Set color based on the index of the feature
-      const index = Object.keys(cityData).indexOf(feature.properties.code) % colors.length;
-      layer.setStyle({
-        fillColor: colors[index], // Use the color from the array
-        fillOpacity: 0.7,
-      });
-    }
-  }, []);
 
   const MoveChoosePerson = (nameCity) => {
     navigate('/mux/choose-person', { state: { nameCity: nameCity } });
@@ -61,16 +53,11 @@ function VNmap() {
     <div className="vnmap-container">
       <Button variant="contained" 
             color="primary" 
-            className="mui-button"
-            sx={{
-              fontSize: "50px !important",
-              marginTop: "70px"
-            }}
+            className="button-map mui-button"
             disabled>
         Chọn tỉnh thành
       </Button>
-      <div style={{ position: 'relative', paddingTop: '250px', scale: "1.6" }}>
-       
+      <div className="vietnam-map-container">
         <MapContainer
           className="vietnam-map"
           zoom={5}
@@ -87,7 +74,7 @@ function VNmap() {
           className="background-image-map" 
         />
           
-          {Object.values(cityDataLocation).map((city) => (
+          {Object.values(cityDataLocation).map((city, index) => (
             <Popup
               key={city.name}
               position={city.coordinates}
@@ -95,7 +82,8 @@ function VNmap() {
               closeOnClick={false}
               autoClose={false}
             >
-              <div className="tooltip" style={{ opacity: 0 }}  onClick={() => MoveChoosePerson(city.name)}>
+              {/* style={{ opacity: 0 }} */}
+              <div className="tooltip" style={{ opacity: 0 }} onClick={() => MoveChoosePerson(city.name)}> 
                 <p className="city-name">{city.index}</p>
                 {/* <p className="city-value">
                   <span>Số lượng bệnh viện </span>

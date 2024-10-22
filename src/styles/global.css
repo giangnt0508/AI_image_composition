@@ -12,13 +12,13 @@ body, html {
 .layout {
   position: relative;
   min-height: 100vh;
-  overflow-x: hidden;
+  overflow: hidden;
   background: radial-gradient(circle, #FF6347 10%, #8B0000 100%);
 }
 .layout-map {
   position: relative;
   min-height: 100vh;
-  overflow-x: hidden;
+  overflow: hidden;
   background: radial-gradient(circle, #f0271d 10%, #480001 100%);
 }
 

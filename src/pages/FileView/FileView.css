@@ -1,0 +1,44 @@
+.choose-background {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .image-grid {
+    display: flex;
+    /* grid-template-columns: repeat(3, 1fr); */
+    gap: 15px;
+    width: 100%;
+    max-width: 600px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+  }
+
+.folder-list {
+    display: flex; /* Sử dụng Flexbox để sắp xếp các folder theo hàng ngang */
+    flex-wrap: wrap; /* Cho phép các folder xuống hàng khi không đủ chỗ */
+    gap: 10px; /* Khoảng cách giữa các folder */
+    justify-content: center; /* Căn giữa các folder trong hàng */
+    padding: 100px 20px 20px 20px;
+}
+
+.folder-item {
+    flex: 1; /* Mỗi folder chiếm 1/3 chiều rộng, trừ khoảng cách */
+    width: calc((100% - 30px) / 3);
+    padding: 10px; /* Khoảng cách bên trong cho mỗi folder */
+    border: 1px solid #ccc; /* Đường viền cho folder */
+    border-radius: 5px; /* Bo góc cho folder */
+    cursor: pointer; /* Hiển thị con trỏ chuột khi di chuột qua */
+    transition: background-color 0.3s; /* Hiệu ứng chuyển màu nền */
+    font-size: 15px;
+}
+
+.folder-item:hover {
+    background-color: #f0f0f0; /* Màu nền khi di chuột qua folder */
+}
+
+.folder-title {
+  text-align: center; /* Căn giữa văn bản */
+  margin-bottom: 20px; /* Khoảng cách dưới tiêu đề */
+}

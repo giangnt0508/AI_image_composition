@@ -10,8 +10,8 @@
 
 
 .tooltip {
-  width: 80px;
-  height: 55px;
+  width: 55px;
+  height: 35px;
   background-color: #8B0000;
   border-radius: 10px;
   filter: drop-shadow(0px 0px 15px rgba(129, 129, 129, 0.25));
@@ -35,8 +35,8 @@
 }
 
 .background-image-map {
-  width: 680px;
-  height: 630px;
+  width: 380px;
+  height: 330px;
   object-fit: contain;
 }
 
@@ -78,4 +78,41 @@
 
 .leaflet-popup-content {
   font-size: 12px;
+}
+
+.button-map {
+  font-size: 20px !important;
+  margin-top: 20px !important;
+}
+
+.vietnam-map-container { 
+  position: relative;
+  padding-top: 50px;
+}
+
+@media (min-width: 768px) {
+  .vietnam-map-container { 
+    position: relative;
+    padding-top: 250px;
+    transform: scale(1.6);
+  }
+
+  .background-image-map {
+    width: 680px;
+    height: 630px;
+    object-fit: contain;
+  }
+
+  .button-map {
+    font-size: 50px !important;
+    margin-top: 70px !important;
+  }
+
+  .tooltip {
+    width: 80px;
+    height: 55px;
+    background-color: #8B0000;
+    border-radius: 10px;
+    filter: drop-shadow(0px 0px 15px rgba(129, 129, 129, 0.25));
+  }
 }

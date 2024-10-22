@@ -172,12 +172,12 @@ function TypeOfCar() {
   };
 
   const handleBack = () => {
-    requestFullscreen();
+    // requestFullscreen();
     navigate('/choose-background');
   };
 
   const handleCapture = async () => {
-    requestFullscreen();
+    // requestFullscreen();
     if (isWebcamOpen) {
       // const imageSrc = webcamRef.current.getScreenshot();
       
@@ -226,12 +226,12 @@ function TypeOfCar() {
   };
 
   const handleCloseWebcam = () => {
-    requestFullscreen();
+    // requestFullscreen();
     setIsWebcamOpen(false);
   };
 
   const handleColorSelect = (color) => {
-    requestFullscreen();
+    // requestFullscreen();
     if (color === selectedColor) return;
     
     setSelectedColor(color);
@@ -255,60 +255,57 @@ function TypeOfCar() {
     return `#${Math.min(255, r + 40).toString(16).padStart(2, '0')}${Math.min(255, g + 40).toString(16).padStart(2, '0')}${Math.min(255, b + 40).toString(16).padStart(2, '0')}`;
   };
 
-
   const colors = ['#F5F5F1', '#B1B3B3', '#4E5D5E', '#1A1A1A', '#C51C1C', '#7B4B38', '#2C3E83', '#F8F8F7'];
+  const isMobile = window.innerWidth <= 768; // Check if the current device is mobile
 
-  // gốc
-const onResults = async (results) => {
-  if (webcamRef.current.video) {
-    const img = document.getElementById('vbackground');
-
-    const videoWidth = 1280;
-    const videoHeight = 960;
-
-    // Set canvas dimensions
-    canvasRef.current.width = videoWidth;
-    canvasRef.current.height = videoHeight;
-
-    const canvasElement = canvasRef.current;
-    const canvasCtx = canvasElement.getContext("2d");
-
-    // Calculate scaled size for webcam feed
-    const scaledWidth = videoWidth * 0.65;
-    
-    const scaledHeight = videoHeight;
-
-    // Set webcam position (bottom left corner)
-    const xPosition = 0;
-    const yPosition = videoHeight - scaledHeight;
-
-    canvasCtx.save();
-    canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
-
-    // Flip the webcam feed horizontally
-    canvasCtx.translate(scaledWidth, 0); // Move context to the right by scaledWidth
-    canvasCtx.scale(-1, 1); // Flip the context horizontally
-
-    // Draw the flipped webcam feed with 70% scaling
-    canvasCtx.drawImage(results.image, -xPosition, yPosition, scaledWidth, scaledHeight);
-
-    // Only overwrite existing pixels for the segmentation mask.
-    canvasCtx.globalCompositeOperation = 'destination-atop';
-    // Draw the flipped segmentation mask
-    canvasCtx.drawImage(results.segmentationMask, -xPosition, yPosition, scaledWidth, scaledHeight);
-
-    // Reset transformation for drawing the background
-    canvasCtx.setTransform(1, 0, 0, 1, 0, 0);
-
-    // Only overwrite missing pixels.
-    canvasCtx.globalCompositeOperation = 'destination-over';
-    canvasCtx.drawImage(img, 0, 0, canvasElement.width, canvasElement.height);
-
-    canvasCtx.restore();
-    setLoad(true);
-  }
-};
+  const onResults = async (results) => {
+    if (webcamRef.current.video) {
+      const img = document.getElementById('vbackground');
   
+      const videoWidth = 1920;
+      const videoHeight = 1440;
+  
+      // Set canvas dimensions
+      canvasRef.current.width = videoWidth;
+      canvasRef.current.height = videoHeight;
+  
+      const canvasElement = canvasRef.current;
+      const canvasCtx = canvasElement.getContext("2d");
+  
+      // Calculate scaled size for webcam feed
+      const scaledWidth = videoWidth * 0.65;
+      const scaledHeight = isMobile ? videoHeight : videoHeight * 0.75;
+  
+      // Set webcam position to center the feed on the canvas
+      const xPosition = (videoWidth - scaledWidth) / 2;  // Center horizontally
+      const yPosition = (videoHeight - scaledHeight) / 2; // Center vertically
+  
+      canvasCtx.save();
+      canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+  
+      // Flip the webcam feed horizontally
+      canvasCtx.translate(xPosition + scaledWidth, 0); // Move context to the right by scaledWidth
+      canvasCtx.scale(-1, 1); // Flip the context horizontally
+  
+      // Draw the flipped webcam feed
+      canvasCtx.drawImage(results.image, -xPosition, yPosition, scaledWidth, scaledHeight);
+  
+      // Only overwrite existing pixels for the segmentation mask
+      canvasCtx.globalCompositeOperation = 'destination-atop';
+      // Draw the flipped segmentation mask
+      canvasCtx.drawImage(results.segmentationMask, -xPosition, yPosition, scaledWidth, scaledHeight);
+  
+      // Reset transformation for drawing the background
+      canvasCtx.setTransform(1, 0, 0, 1, 0, 0);
+  
+      // Only overwrite missing pixels.
+      canvasCtx.globalCompositeOperation = 'destination-over';
+      canvasCtx.drawImage(img, 0, 0, canvasElement.width, canvasElement.height);
+  
+      canvasCtx.restore();
+      setLoad(true);
+    }
+  };
   
 
   useEffect(() => {
@@ -337,8 +334,8 @@ const onResults = async (results) => {
               console.error("Error sending image to selfie segmentation:", error);
             }
           },
-          width: 1280,
-          height: 960
+          width: 1920,
+          height: 1440
         });
 
         camera.start();

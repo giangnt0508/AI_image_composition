@@ -21,6 +21,11 @@ function Permission() {
     navigate('/mux');
   };
 
+  const handleClickViewFile = () => {
+    requestFullscreen(); // Call the new function
+    navigate('/file-view');
+  }
+
   return (
     <div 
       style={{ 
@@ -61,6 +66,15 @@ function Permission() {
                   onClick={handleClickCar} 
                   >
             TRUY CẬP CHỤP HÌNH AI
+          </Button>
+          </div>
+          <div>
+            <Button variant="contained" 
+                  color="primary" 
+                  className="mui-button"
+                  onClick={handleClickViewFile} 
+                  >
+            TRUY CẬP FOLDER FILE
           </Button>
           </div>
         </>

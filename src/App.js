@@ -13,6 +13,7 @@ import ChoosePerson from './pages/ChoosePerson/ChoosePerson';
 import CommentPerson from './pages/CommentPerson/CommentPerson';
 import Permission from './pages/Permission/Permission';
 import ViewPhoto from './pages/ViewPhoto/ViewPhoto';
+import FileView from './pages/FileView/FileView';
 
 const theme = createTheme({
   palette: {
@@ -48,6 +49,7 @@ function App() {
                 <Route path="/type-of-car" element={<TypeOfCar />} />
                 <Route path="/view-photo" element={<ViewPhoto />} />
                 <Route path="/qr" element={<QR />} />
+                <Route path="/file-view" element={<FileView />} />
               </Routes>
             </Layout>
           } />
