@@ -3,6 +3,8 @@ import { Button, Box } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './ViewPhoto.css';
 import { requestFullscreen } from '../../commonFunction/fullscreenUtils';
+import { QRCode } from 'react-qrcode-logo';
+import logoIsuzu from '../../images/logo-isuzu-do.png'
 
 function ViewPhoto() {
   const navigate = useNavigate();
@@ -12,7 +14,7 @@ function ViewPhoto() {
 
   const handleGotoQR = () => {
     requestFullscreen();
-    navigate('/qr', { state: { takeImage: takeImage, background: backgroundImage } });
+    navigate('/main-page');
   };
 
   const handleTakeImageBack = () => {
@@ -31,12 +33,29 @@ function ViewPhoto() {
         XEM HÌNH CỦA BẠN
       </Button>
       <div className="image-grid-view">
-        <div>
-            <div className="image-grid-item-qr-view">
-                <img src={takeImage.trim()} alt='image-original' onLoad={() => console.log('Image loaded')} 
-         onError={() => console.log('Image failed to load')} />
+        <div className="image-grid-item-qr-view">
+            <img
+              src={takeImage.trim()} 
+              alt='image-original' 
+              onLoad={() => console.log('Image loaded')} 
+              onError={() => console.log('Image failed to load')} 
+            />
+            <div className='qr-scan'>
+              <QRCode 
+                value={takeImage} 
+                bgColor="#FFFFFF" 
+                fgColor="#000000" 
+                logoImage={logoIsuzu}
+              />
+              <div className="qr-h1">
+                <h1>
+                  SCAN ĐỂ LƯU LẠI HÌNH ẢNH
+                </h1>
+              </div>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '15px' }}>
+            
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '15px' }}>
                 <Button 
                     variant="contained" 
                     color="secondary" 
@@ -51,10 +70,9 @@ function ViewPhoto() {
                     className="mui-button"
                     onClick={handleGotoQR}
                 >
-                    TẠO QR CODE
+                    HOME
                 </Button>
             </div>
-        </div>
       </div>
     </div>
   );

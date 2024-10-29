@@ -6,74 +6,19 @@ import './TypeOfCar.css';
 import { SelfieSegmentation  } from '@mediapipe/selfie_segmentation'; // Add this line
 import * as cam from "@mediapipe/camera_utils";
 import { requestFullscreen } from '../../commonFunction/fullscreenUtils';
-// Import images for option1
-import option1White from '../../images/option1/F5F5F1.jpg';
-import option1Gray from '../../images/option1/B1B3B3.jpg';
-import option1DarkGray from '../../images/option1/4E5D5E.jpg';
-import option1Black from '../../images/option1/1A1A1A.jpg';
-import option1Red from '../../images/option1/C51C1C.jpg';
-import option1Brown from '../../images/option1/7B4B38.jpg';
-import option1Blue from '../../images/option1/2C3E83.jpg';
-import option1LightGray from '../../images/option1/F8F8F7.jpg';
 
-// Import images for option2
-import option2White from '../../images/option2/F5F5F1.jpg';
-import option2Gray from '../../images/option2/B1B3B3.jpg';
-import option2DarkGray from '../../images/option2/4E5D5E.jpg';
-import option2Black from '../../images/option2/1A1A1A.jpg';
-import option2Red from '../../images/option2/C51C1C.jpg';
-import option2Brown from '../../images/option2/7B4B38.jpg';
-import option2Blue from '../../images/option2/2C3E83.jpg';
-import option2LightGray from '../../images/option2/F8F8F7.jpg';
+import option8White from '../../images/mux/F5F5F1.png';
+import option8DarkGray from '../../images/mux/4E5D5E.png';
+import option8Black from '../../images/mux/1A1A1A.png';
+import option8Red from '../../images/mux/C51C1C.png';
+import option8Blue from '../../images/mux/2C3E83.png';
 
-// Import images for option3
-import option3White from '../../images/option3/F5F5F1.jpg';
-import option3Gray from '../../images/option3/B1B3B3.jpg';
-import option3DarkGray from '../../images/option3/4E5D5E.jpg';
-import option3Black from '../../images/option3/1A1A1A.jpg';
-import option3Red from '../../images/option3/C51C1C.jpg';
-import option3Brown from '../../images/option3/7B4B38.jpg';
-import option3Blue from '../../images/option3/2C3E83.jpg';
-import option3LightGray from '../../images/option3/F8F8F7.jpg';
-
-// Import images for option4
-import option4White from '../../images/option4/F5F5F1.jpg';
-import option4Gray from '../../images/option4/B1B3B3.jpg';
-import option4DarkGray from '../../images/option4/4E5D5E.jpg';
-import option4Black from '../../images/option4/1A1A1A.jpg';
-import option4Red from '../../images/option4/C51C1C.jpg';
-import option4Brown from '../../images/option4/7B4B38.jpg';
-import option4Blue from '../../images/option4/2C3E83.jpg';
-import option4LightGray from '../../images/option4/F8F8F7.jpg';
-
-// Import images for option5
-import option5White from '../../images/option5/F5F5F1.jpg';
-import option5Gray from '../../images/option5/B1B3B3.jpg';
-import option5DarkGray from '../../images/option5/4E5D5E.jpg';
-import option5Black from '../../images/option5/1A1A1A.jpg';
-import option5Red from '../../images/option5/C51C1C.jpg';
-import option5Brown from '../../images/option5/7B4B38.jpg';
-import option5Blue from '../../images/option5/2C3E83.jpg';
-import option5LightGray from '../../images/option5/F8F8F7.jpg';
-
-// Import images for option6
-import option6White from '../../images/option6/F5F5F1.jpg';
-import option6Gray from '../../images/option6/B1B3B3.jpg';
-import option6DarkGray from '../../images/option6/4E5D5E.jpg';
-import option6Black from '../../images/option6/1A1A1A.jpg';
-import option6Red from '../../images/option6/C51C1C.jpg';
-import option6Brown from '../../images/option6/7B4B38.jpg';
-import option6Blue from '../../images/option6/2C3E83.jpg';
-import option6LightGray from '../../images/option6/F8F8F7.jpg';
-
-import option7White from '../../images/option7/F5F5F1.jpg';
-import option7Gray from '../../images/option7/B1B3B3.jpg';
-import option7DarkGray from '../../images/option7/4E5D5E.jpg';
-import option7Black from '../../images/option7/1A1A1A.jpg';
-import option7Red from '../../images/option7/C51C1C.jpg';
-import option7Brown from '../../images/option7/7B4B38.jpg';
-import option7Blue from '../../images/option7/2C3E83.jpg';
-import option7LightGray from '../../images/option7/F8F8F7.jpg';
+import optionDMaxWhite from '../../images/dxmax/F5F5F1.png';
+import optionDMaxDarkGray from '../../images/dxmax/4E5D5E.png';
+import optionDMaxBlack from '../../images/dxmax/1A1A1A.png';
+import optionDMaxRed from '../../images/dxmax/C51C1C.png';
+import optionDMaxBlue from '../../images/dxmax/2C3E83.png';
+import optionDMaxWhitePeal from '../../images/dxmax/DFDEDB.png';
 
 
 function TypeOfCar() {
@@ -81,6 +26,7 @@ function TypeOfCar() {
   const location = useLocation();
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
+  const backgroundRef = useRef(null);
   const carImageContainerRef = useRef(null); // Thêm ref cho thẻ div
   
   const backgroundImageOriginal = location.state?.background;
@@ -90,84 +36,34 @@ function TypeOfCar() {
   const [isWebcamOpen, setIsWebcamOpen] = useState(location.state?.openWebcam || false);
   const [isLoading, setIsLoading] = useState(false);
   const [backgroundImage, setBackgroundImage] = useState(backgroundImageOriginal);
-  
-  const [selectedOption, setSelectedOption] = useState(folderOriginal);
-
   const [load, setLoad] = useState(false);
-  const [imageWidth, setImageWidth] = useState(0); // Thêm state để lưu chiều rộng hình ảnh
-  const [imageHeight, setImageHeight] = useState(0); // Thêm state để lưu chiều cao hình ảnh
 
+  const colors = ['#F5F5F1', '#4E5D5E', '#1A1A1A', '#C51C1C', '#2C3E83'];
+  const colorsDxmax = ['#F5F5F1', '#4E5D5E', '#1A1A1A', '#C51C1C', '#2C3E83', '#DFDEDB'];
+  const isMobile = window.innerWidth <= 768; // Check if the current device is mobile
+
+  const isDxmaxFolder = ['option4', 'option5', 'option8'].includes(folderOriginal); // Kiểm tra xem folderOriginal có thuộc về các tùy chọn không
+
+  const colorsToUse = isDxmaxFolder ? colorsDxmax : colors; // Xác định màu sắc sẽ sử dụng
+
+  
+  const [selectedOption8Image, setSelectedOption8Image] = useState(isDxmaxFolder ? optionDMaxWhite : option8White);
 
   const colorImages = {
-    option1: {
-      '#F5F5F1': option1White,
-      '#B1B3B3': option1Gray,
-      '#4E5D5E': option1DarkGray,
-      '#1A1A1A': option1Black,
-      '#C51C1C': option1Red,
-      '#7B4B38': option1Brown,
-      '#2C3E83': option1Blue,
-      '#F8F8F7': option1LightGray,
+    dxmax: {
+      '#F5F5F1': optionDMaxWhite,
+      '#4E5D5E': optionDMaxDarkGray,
+      '#1A1A1A': optionDMaxBlack,
+      '#C51C1C': optionDMaxRed,
+      '#2C3E83': optionDMaxBlue,
+      '#DFDEDB': optionDMaxWhitePeal,
     },
-    option2: {
-      '#F5F5F1': option2White,
-      '#B1B3B3': option2Gray,
-      '#4E5D5E': option2DarkGray,
-      '#1A1A1A': option2Black,
-      '#C51C1C': option2Red,
-      '#7B4B38': option2Brown,
-      '#2C3E83': option2Blue,
-      '#F8F8F7': option2LightGray,
-    },
-    option3: {
-      '#F5F5F1': option3White,
-      '#B1B3B3': option3Gray,
-      '#4E5D5E': option3DarkGray,
-      '#1A1A1A': option3Black,
-      '#C51C1C': option3Red,
-      '#7B4B38': option3Brown,
-      '#2C3E83': option3Blue,
-      '#F8F8F7': option3LightGray,
-    },
-    option4: {
-      '#F5F5F1': option4White,
-      '#B1B3B3': option4Gray,
-      '#4E5D5E': option4DarkGray,
-      '#1A1A1A': option4Black,
-      '#C51C1C': option4Red,
-      '#7B4B38': option4Brown,
-      '#2C3E83': option4Blue,
-      '#F8F8F7': option4LightGray,
-    },
-    option5: {
-      '#F5F5F1': option5White,
-      '#B1B3B3': option5Gray,
-      '#4E5D5E': option5DarkGray,
-      '#1A1A1A': option5Black,
-      '#C51C1C': option5Red,
-      '#7B4B38': option5Brown,
-      '#2C3E83': option5Blue,
-      '#F8F8F7': option5LightGray,
-    },
-    option6: {
-      '#F5F5F1': option6White,
-      '#B1B3B3': option6Gray,
-      '#4E5D5E': option6DarkGray,
-      '#1A1A1A': option6Black,
-      '#C51C1C': option6Red,
-      '#7B4B38': option6Brown,
-      '#2C3E83': option6Blue,
-      '#F8F8F7': option6LightGray,
-    },
-    option7: {
-      '#F5F5F1': option7White,
-      '#B1B3B3': option7Gray,
-      '#4E5D5E': option7DarkGray,
-      '#1A1A1A': option7Black,
-      '#C51C1C': option7Red,
-      '#7B4B38': option7Brown,
-      '#2C3E83': option7Blue,
-      '#F8F8F7': option7LightGray,
+    option8: {
+      '#F5F5F1': option8White,
+      '#4E5D5E': option8DarkGray,
+      '#1A1A1A': option8Black,
+      '#C51C1C': option8Red,
+      '#2C3E83': option8Blue,
     },
   };
 
@@ -226,24 +122,48 @@ function TypeOfCar() {
   };
 
   const handleCloseWebcam = () => {
-    // requestFullscreen();
-    setIsWebcamOpen(false);
+    // Stop the webcam stream if it's open
+    if (webcamRef.current && webcamRef.current.video) {
+      const stream = webcamRef.current.video.srcObject;
+      if (stream) {
+          const tracks = stream.getTracks();
+          tracks.forEach(track => track.stop()); // Stop each track
+          webcamRef.current.video.srcObject = null; // Set srcObject to null
+      }
+  }
+  webcamRef.current.video = null;
+  setIsWebcamOpen(false);
+  setIsLoading(true); // Start loading when selecting a color
+  setBackgroundImage(backgroundImageOriginal);
+    try {
+        const newImage = colorImages['option8']['#F8F8F7'];
+        setSelectedOption8Image(newImage);
+    } catch (error) {
+        console.error('Error updating background image:', error);
+    } finally {
+        setTimeout(() => {
+            setIsLoading(false); // Stop loading after 2 seconds
+        }, 2000);
+    }
   };
 
   const handleColorSelect = (color) => {
-    // requestFullscreen();
     if (color === selectedColor) return;
-    
+
+    setIsLoading(true); // Bắt đầu tải khi chọn màu
     setSelectedColor(color);
-    setIsLoading(true);
-    
+
     try {
-      const newBackgroundImage = colorImages[selectedOption][color];
-      setBackgroundImage(newBackgroundImage);
+      const newImage = isDxmaxFolder
+        ? colorImages['dxmax'][color] // Sử dụng màu dxmax
+        : colorImages['option8'][color]; // Sử dụng màu option8 cho các trường hợp còn lại
+      setSelectedOption8Image(newImage);
     } catch (error) {
       console.error('Error updating background image:', error);
     } finally {
-      setIsLoading(false);
+      setTimeout(() => {
+        setIsLoading(false); // Dừng tải sau 2 giây
+      }, 2000);
     }
   };
 
@@ -255,45 +175,68 @@ function TypeOfCar() {
     return `#${Math.min(255, r + 40).toString(16).padStart(2, '0')}${Math.min(255, g + 40).toString(16).padStart(2, '0')}${Math.min(255, b + 40).toString(16).padStart(2, '0')}`;
   };
 
-  const colors = ['#F5F5F1', '#B1B3B3', '#4E5D5E', '#1A1A1A', '#C51C1C', '#7B4B38', '#2C3E83', '#F8F8F7'];
-  const isMobile = window.innerWidth <= 768; // Check if the current device is mobile
+  let animationFrameId;
+  const option8WhiteImage = new Image();
+option8WhiteImage.src = selectedOption8Image; // Đảm bảo rằng selectedOption8Image đã được định nghĩa và hợp lệ
+
+// Cài đặt sự kiện onload cho hình ảnh
+option8WhiteImage.onload = () => {
+  setLoad(true); // Cập nhật trạng thái tải
+};
 
   const onResults = async (results) => {
-    if (webcamRef.current.video) {
-      const img = document.getElementById('vbackground');
+    if (webcamRef.current.video) {;
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+
+      animationFrameId = requestAnimationFrame(() => {
+        drawCanvas(results);
+      });
+    }
+  };
+
+  const drawCanvas = (results) => {
+    const img = backgroundRef.current;
+    const videoWidth = 1920;
+    const videoHeight = 1440;
+
+    // Set canvas dimensions
+    canvasRef.current.width = videoWidth;
+    canvasRef.current.height = videoHeight;
+
+    const canvasElement = canvasRef.current;
+    const canvasCtx = canvasElement.getContext("2d");
+
+    // Calculate size for smaller webcam feed (35% of videoWidth and videoHeight)
+    const scaledWidth = videoWidth * 0.35;
+    const scaledHeight = isMobile ? videoHeight * 0.55 : videoHeight * 0.6;
+
+    // Set webcam position to center the smaller feed on the canvas
+    const xPosition = (videoWidth - scaledWidth) / 2;  // Center horizontally
+    const yPosition = (videoHeight - scaledHeight) / 2; // Center vertically
+
+    canvasCtx.save();
+    canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+      if (img) {
+      // Draw the background first
+      canvasCtx.globalCompositeOperation = 'source-over';
+      canvasCtx.drawImage(img, 0, 0, canvasElement.width, canvasElement.height);
   
-      const videoWidth = 1920;
-      const videoHeight = 1440;
-  
-      // Set canvas dimensions
-      canvasRef.current.width = videoWidth;
-      canvasRef.current.height = videoHeight;
-  
-      const canvasElement = canvasRef.current;
-      const canvasCtx = canvasElement.getContext("2d");
-  
-      // Calculate scaled size for webcam feed
-      const scaledWidth = videoWidth * 0.65;
-      const scaledHeight = isMobile ? videoHeight : videoHeight * 0.75;
-  
-      // Set webcam position to center the feed on the canvas
-      const xPosition = (videoWidth - scaledWidth) / 2;  // Center horizontally
-      const yPosition = (videoHeight - scaledHeight) / 2; // Center vertically
-  
+      // Save canvas state before applying transformations
       canvasCtx.save();
-      canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
   
       // Flip the webcam feed horizontally
-      canvasCtx.translate(xPosition + scaledWidth, 0); // Move context to the right by scaledWidth
+      canvasCtx.translate(xPosition + scaledWidth / 2, yPosition + scaledHeight / 2); // Move context to the right by scaledWidth
       canvasCtx.scale(-1, 1); // Flip the context horizontally
   
-      // Draw the flipped webcam feed
-      canvasCtx.drawImage(results.image, -xPosition, yPosition, scaledWidth, scaledHeight);
+      // Draw the flipped webcam feed in a small rectangle
+      canvasCtx.drawImage(results.image, -scaledWidth / 2, -scaledHeight / 2, scaledWidth, scaledHeight);
   
       // Only overwrite existing pixels for the segmentation mask
       canvasCtx.globalCompositeOperation = 'destination-atop';
       // Draw the flipped segmentation mask
-      canvasCtx.drawImage(results.segmentationMask, -xPosition, yPosition, scaledWidth, scaledHeight);
+      canvasCtx.drawImage(results.segmentationMask, -scaledWidth / 2, -scaledHeight / 2, scaledWidth, scaledHeight);
   
       // Reset transformation for drawing the background
       canvasCtx.setTransform(1, 0, 0, 1, 0, 0);
@@ -301,12 +244,45 @@ function TypeOfCar() {
       // Only overwrite missing pixels.
       canvasCtx.globalCompositeOperation = 'destination-over';
       canvasCtx.drawImage(img, 0, 0, canvasElement.width, canvasElement.height);
-  
-      canvasCtx.restore();
-      setLoad(true);
+      
+      // Đặt chế độ kết hợp để vẽ khung
+      canvasCtx.globalCompositeOperation = 'source-over'; // Đảm bảo khung được vẽ trên cùng
+      canvasCtx.strokeStyle = 'white';  // Đặt màu khung là trắng
+      
+      const scaleNumberMoblie = isMobile ? 10 : 50;
+
+      // Vẽ khung bên trái và bên phải
+      canvasCtx.lineWidth = 10;  // Đặt độ dày cho cạnh bên
+      canvasCtx.strokeRect(xPosition - 2.5, yPosition -scaleNumberMoblie, 5, scaledHeight + scaleNumberMoblie);  // Vẽ cạnh bên trái
+      canvasCtx.strokeRect(xPosition + scaledWidth - 2.5, yPosition - scaleNumberMoblie, 5, scaledHeight + scaleNumberMoblie);  // Vẽ cạnh bên phải
+      
+      // Vẽ khung trên và dưới
+      canvasCtx.lineWidth = 15;  // Đặt độ dày cho cạnh trên và dưới
+      canvasCtx.strokeRect(xPosition, yPosition - 15 -scaleNumberMoblie, scaledWidth, 15);  // Vẽ cạnh trên
+      canvasCtx.strokeRect(xPosition, yPosition + scaledHeight, scaledWidth, 15);  // Vẽ cạnh dưới
+      // canvasCtx.restore();
+      // Draw option8WhiteImage
+      drawOption8Image(canvasCtx, xPosition, yPosition, scaledHeight);
+    } else {
+      console.log('Background image is not loaded or invalid:', img);
     }
   };
   
+  
+  const drawOption8Image = (canvasCtx, xPosition, yPosition, scaledHeight) => {
+    const scaleNumberMoblie = isMobile ? -20 : -100;
+    const scaleNumberCarMoblie = isMobile ? 1.35 : 1.35;
+    if (option8WhiteImage.complete) {
+      const imgWidth = option8WhiteImage.width * scaleNumberCarMoblie;
+      const imgHeight = option8WhiteImage.height * scaleNumberCarMoblie;
+      canvasCtx.drawImage(
+        option8WhiteImage,
+        yPosition + scaledHeight + scaleNumberMoblie,
+        isMobile ? xPosition + 320 : xPosition + 320,
+        imgWidth,
+        imgHeight);
+    }
+  };
 
   useEffect(() => {
     const selfieSegmentation = new SelfieSegmentation({
@@ -345,6 +321,57 @@ function TypeOfCar() {
     }
   }, [isWebcamOpen]);
 
+  useEffect(() => {
+    if (!isWebcamOpen) {
+        const canvas = canvasRef.current;
+        const ctx = canvas.getContext('2d');
+        const img = document.querySelector('.background-image-type-of-car');
+        
+        if (img) {
+            canvas.width = 1920;
+            canvas.height = 1440;
+            const videoWidth = 1920;
+            const videoHeight = 1440;
+            const scaledWidth = videoWidth * 0.35;
+            const scaledHeight = isMobile ? videoHeight * 0.55 : videoHeight * 0.6;
+            const xPosition = (videoWidth - scaledWidth) / 2;  // Center horizontally
+            const yPosition = (videoHeight - scaledHeight) / 2; // Center vertically
+            const scaleNumberMoblie = isMobile ? 10 : 50;
+            const scaleNumberCarMoblie = isMobile ? 1.35 : 1.35;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // Đặt chế độ kết hợp để vẽ khung
+            ctx.globalCompositeOperation = 'source-over'; // Đảm bảo khung được vẽ trên cùng
+            ctx.strokeStyle = 'white';  // Đặt màu khung là trắng
+
+            // Vẽ khung bên trái và bên phải
+            ctx.lineWidth = 10;  // Đặt độ dày cho cạnh bên
+            ctx.strokeRect(xPosition - 2.5, yPosition -scaleNumberMoblie, 5, scaledHeight + scaleNumberMoblie);  // Vẽ cạnh bên trái
+            ctx.strokeRect(xPosition + scaledWidth - 2.5, yPosition - scaleNumberMoblie, 5, scaledHeight + scaleNumberMoblie);  // Vẽ cạnh bên phải
+      
+            // Vẽ khung trên và dưới
+            ctx.lineWidth = 15;  // Đặt độ dày cho cạnh trên và dưới
+            ctx.strokeRect(xPosition, yPosition - 15 -scaleNumberMoblie, scaledWidth, 15);  // Vẽ cạnh trên
+            ctx.strokeRect(xPosition, yPosition + scaledHeight, scaledWidth, 15);  // Vẽ cạnh dưới
+      
+            // {{ edit_1 }}: Draw the option8White image diagonally at the corner
+            const scaleNumberOption = isMobile ? -20 : -100;
+            const option8WhiteImage = new Image();
+            option8WhiteImage.src = selectedOption8Image; // Ensure option8White is defined in your imports
+            option8WhiteImage.onload = () => {
+              const imgWidth = option8WhiteImage.width * scaleNumberCarMoblie;
+              const imgHeight = option8WhiteImage.height * scaleNumberCarMoblie;
+              ctx.drawImage(
+                option8WhiteImage,
+                yPosition + scaledHeight + scaleNumberOption,
+                isMobile ? xPosition + 320 : xPosition + 320,
+                imgWidth,
+                imgHeight);
+            };
+        }
+    }
+  }, [backgroundImage, isWebcamOpen, selectedOption8Image]);
+
   return (
     <div className="type-of-car">
       <Button 
@@ -357,7 +384,7 @@ function TypeOfCar() {
       </Button>
       {!isWebcamOpen && (
         <div className="color-grid">
-          {colors.map((color, index) => (
+          {colorsToUse.map((color, index) => (
             <div 
               key={index} 
               className="color-option" 
@@ -389,10 +416,14 @@ function TypeOfCar() {
                   height: "100%" // Đặt chiều cao canvas là 100%
                 }}
               ></canvas>
-              <img id="vbackground" src={backgroundImage} alt="The Screan"  className="background-image-type-of-car" style={{ display: 'none' }} />
+              <img id="vbackground" ref={backgroundRef} src={backgroundImage} alt="The Screan"  className="background-image-type-of-car" style={{ display: 'none' }} />
           </div>
         ) : (
-          <img src={backgroundImage} alt="Selected background" className="background-image-type-of-car" />
+          <div className="image-frame-container"> {/* Added a container for the frame */}
+            <img src={backgroundImage} alt="Selected background" className="background-image-type-of-car" />
+            <canvas className="image-frame" ref={canvasRef} style={{ position: 'absolute', top: 0, left: 0 }}></canvas> {/* Canvas for the frame */}
+          </div>
+          // <img src={backgroundImage} alt="Selected background" className="background-image-type-of-car" />
         )}
       </div>
       <Box className="grid-button">
