@@ -33,6 +33,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Permission />} />
           <Route path="/main-page" element={<MainPage />} />
+          <Route path="/type-of-car" element={<TypeOfCar />} />
           <Route path="/mux/*" element={
             <LayoutMUX>
               <Routes>
@@ -46,7 +47,7 @@ function App() {
             <Layout>
               <Routes>
                 <Route path="/choose-background" element={<ChooseBackground />} />
-                <Route path="/type-of-car" element={<TypeOfCar />} />
+
                 <Route path="/view-photo" element={<ViewPhoto />} />
                 <Route path="/qr" element={<QR />} />
                 <Route path="/file-view" element={<FileView />} />

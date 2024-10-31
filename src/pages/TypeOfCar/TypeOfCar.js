@@ -20,6 +20,9 @@ import optionDMaxRed from '../../images/dxmax/C51C1C.png';
 import optionDMaxBlue from '../../images/dxmax/2C3E83.png';
 import optionDMaxWhitePeal from '../../images/dxmax/DFDEDB.png';
 
+import logo from '../../images/logo.png';
+import imageBackground from '../../images/isuzu-background.png';
+import '../../styles/global.css';
 
 function TypeOfCar() {
   const navigate = useNavigate();
@@ -120,30 +123,32 @@ function TypeOfCar() {
       setIsWebcamOpen(true);
     }
   };
-
   const handleCloseWebcam = () => {
     // Stop the webcam stream if it's open
     if (webcamRef.current && webcamRef.current.video) {
       const stream = webcamRef.current.video.srcObject;
       if (stream) {
-          const tracks = stream.getTracks();
-          tracks.forEach(track => track.stop()); // Stop each track
-          webcamRef.current.video.srcObject = null; // Set srcObject to null
+        const tracks = stream.getTracks();
+        tracks.forEach(track => track.stop()); // Stop each track
+        webcamRef.current.video.srcObject = null; // Set srcObject to null
       }
-  }
-  webcamRef.current.video = null;
-  setIsWebcamOpen(false);
-  setIsLoading(true); // Start loading when selecting a color
-  setBackgroundImage(backgroundImageOriginal);
+    }
+    // Cleanup and reset state
+    webcamRef.current.video = null;
+    setIsWebcamOpen(false);
+    setIsLoading(true); // Start loading when selecting a color
+    setBackgroundImage(backgroundImageOriginal);
     try {
-        const newImage = colorImages['option8']['#F8F8F7'];
-        setSelectedOption8Image(newImage);
+      const newImage = isDxmaxFolder
+        ? colorImages['dxmax']['#F8F8F7'] // Sử dụng màu dxmax
+        : colorImages['option8']['#F8F8F7']; // Sử dụng màu option8 cho các trường hợp còn lại
+      setSelectedOption8Image(newImage);
     } catch (error) {
-        console.error('Error updating background image:', error);
+      console.error('Error updating background image:', error);
     } finally {
-        setTimeout(() => {
-            setIsLoading(false); // Stop loading after 2 seconds
-        }, 2000);
+      setTimeout(() => {
+        setIsLoading(false); // Stop loading after 2 seconds
+      }, 2000);
     }
   };
 
@@ -198,8 +203,8 @@ option8WhiteImage.onload = () => {
 
   const drawCanvas = (results) => {
     const img = backgroundRef.current;
-    const videoWidth = 1920;
-    const videoHeight = 1440;
+    const videoWidth = isMobile ? 3024 : 1920;
+    const videoHeight = isMobile ? 5332 : 1440;
 
     // Set canvas dimensions
     canvasRef.current.width = videoWidth;
@@ -209,8 +214,8 @@ option8WhiteImage.onload = () => {
     const canvasCtx = canvasElement.getContext("2d");
 
     // Calculate size for smaller webcam feed (35% of videoWidth and videoHeight)
-    const scaledWidth = videoWidth * 0.35;
-    const scaledHeight = isMobile ? videoHeight * 0.55 : videoHeight * 0.6;
+    const scaledWidth = isMobile ? videoWidth * 0.55 : videoWidth * 0.35;
+    const scaledHeight = isMobile ? videoHeight * 0.65 : videoHeight * 0.6;
 
     // Set webcam position to center the smaller feed on the canvas
     const xPosition = (videoWidth - scaledWidth) / 2;  // Center horizontally
@@ -252,14 +257,14 @@ option8WhiteImage.onload = () => {
       const scaleNumberMoblie = isMobile ? 10 : 50;
 
       // Vẽ khung bên trái và bên phải
-      canvasCtx.lineWidth = 10;  // Đặt độ dày cho cạnh bên
-      canvasCtx.strokeRect(xPosition - 2.5, yPosition -scaleNumberMoblie, 5, scaledHeight + scaleNumberMoblie);  // Vẽ cạnh bên trái
-      canvasCtx.strokeRect(xPosition + scaledWidth - 2.5, yPosition - scaleNumberMoblie, 5, scaledHeight + scaleNumberMoblie);  // Vẽ cạnh bên phải
+      canvasCtx.lineWidth = 20;  // Đặt độ dày cho cạnh bên
+      canvasCtx.strokeRect(xPosition - 5, yPosition -scaleNumberMoblie, 10, scaledHeight + scaleNumberMoblie);  // Vẽ cạnh bên trái
+      canvasCtx.strokeRect(xPosition + scaledWidth - 5, yPosition - scaleNumberMoblie, 10, scaledHeight + scaleNumberMoblie);  // Vẽ cạnh bên phải
       
       // Vẽ khung trên và dưới
-      canvasCtx.lineWidth = 15;  // Đặt độ dày cho cạnh trên và dưới
-      canvasCtx.strokeRect(xPosition, yPosition - 15 -scaleNumberMoblie, scaledWidth, 15);  // Vẽ cạnh trên
-      canvasCtx.strokeRect(xPosition, yPosition + scaledHeight, scaledWidth, 15);  // Vẽ cạnh dưới
+      canvasCtx.lineWidth = 30;  // Đặt độ dày cho cạnh trên và dưới
+      canvasCtx.strokeRect(xPosition, yPosition - 30 -scaleNumberMoblie, scaledWidth, 30);  // Vẽ cạnh trên
+      canvasCtx.strokeRect(xPosition, yPosition + scaledHeight, scaledWidth, 30);  // Vẽ cạnh dưới
       // canvasCtx.restore();
       // Draw option8WhiteImage
       drawOption8Image(canvasCtx, xPosition, yPosition, scaledHeight);
@@ -270,15 +275,15 @@ option8WhiteImage.onload = () => {
   
   
   const drawOption8Image = (canvasCtx, xPosition, yPosition, scaledHeight) => {
-    const scaleNumberMoblie = isMobile ? -20 : -100;
-    const scaleNumberCarMoblie = isMobile ? 1.35 : 1.35;
+    const scaleNumberMoblie = isMobile ? -2920 : -100;
+    const scaleNumberCarMoblie = isMobile ? 3 : 1.35;
     if (option8WhiteImage.complete) {
       const imgWidth = option8WhiteImage.width * scaleNumberCarMoblie;
       const imgHeight = option8WhiteImage.height * scaleNumberCarMoblie;
       canvasCtx.drawImage(
         option8WhiteImage,
         yPosition + scaledHeight + scaleNumberMoblie,
-        isMobile ? xPosition + 320 : xPosition + 320,
+        isMobile ? xPosition + 3300 : xPosition + 320,
         imgWidth,
         imgHeight);
     }
@@ -321,6 +326,8 @@ option8WhiteImage.onload = () => {
     }
   }, [isWebcamOpen]);
 
+  
+  
   useEffect(() => {
     if (!isWebcamOpen) {
         const canvas = canvasRef.current;
@@ -373,6 +380,13 @@ option8WhiteImage.onload = () => {
   }, [backgroundImage, isWebcamOpen, selectedOption8Image]);
 
   return (
+    <div className="layout">
+      <div className="content">
+      {(!isWebcamOpen || !isMobile) && (
+        <div className="logo-container">
+          <img src={logo} alt="ISUZU LIFESTYLE" className="logo" />
+        </div>
+      )}
     <div className="type-of-car">
       <Button 
         variant="contained" 
@@ -397,7 +411,11 @@ option8WhiteImage.onload = () => {
           ))}
         </div>
       )}
-      <div className="car-image-container" ref={carImageContainerRef}> {/* Thêm ref vào thẻ div */}
+      <div
+        className="car-image-container" 
+        ref={carImageContainerRef}
+        style={{ aspectRatio: !isWebcamOpen ? '16/12' : 'auto', height: (isWebcamOpen && isMobile) ? '65vh' : 'auto' }}
+      > 
         {isWebcamOpen ? (
           <div >
             <Webcam
@@ -445,6 +463,13 @@ option8WhiteImage.onload = () => {
         </Button>
       </Box>
       {isLoading && <div className="loading-overlay">Đang xử lý...</div>}
+    </div>
+    </div>
+    {(!isWebcamOpen || !isMobile) && (
+      <div className="background-image">
+        <img src={imageBackground} alt="Isuzu background" />
+      </div>
+    )}
     </div>
   );
 }

@@ -10,7 +10,7 @@ function Layout({ children }) {
         <div className="logo-container">
           <img src={logo} alt="ISUZU LIFESTYLE" className="logo" />
         </div>
-        {children}
+          {children}
       </div>
       <div className="background-image">
         <img src={imageBackground} alt="Isuzu background" />

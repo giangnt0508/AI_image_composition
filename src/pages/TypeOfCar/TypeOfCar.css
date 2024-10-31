@@ -28,7 +28,6 @@
 .car-image-container {
   width: 100%;
   max-width: 600px;
-  aspect-ratio: 16 / 12;
   overflow: hidden;
   border-radius: 8px;
   /* box-shadow: 0 0 0 3px white; */
@@ -36,7 +35,7 @@
 }
 .car-image-container img {
   width: 100%;
-  height: 59vw;
+  height: 100%;
 }
 
 .car-image-container .webcam {
@@ -55,11 +54,15 @@
 
   .car-image-container img {
     width: 100%;
-    height: 24vw;
+    height: 100%;
   }
 
   .grid-button {
     width: 37%;
+  }
+
+  .car-image-container {
+    aspect-ratio: 16 / 12;
   }
 }
 
@@ -100,6 +103,8 @@
 .image-frame-container {
   position: relative; /* Position relative to allow absolute positioning of the canvas */
   display: inline-block; /* Ensure the container wraps around the image */
+  height: 100%;
+  width: 100%;
 }
 
 .image-frame {
