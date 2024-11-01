@@ -180,7 +180,6 @@ function TypeOfCar() {
     return `#${Math.min(255, r + 40).toString(16).padStart(2, '0')}${Math.min(255, g + 40).toString(16).padStart(2, '0')}${Math.min(255, b + 40).toString(16).padStart(2, '0')}`;
   };
 
-  let animationFrameId;
   const option8WhiteImage = new Image();
 option8WhiteImage.src = selectedOption8Image; // Đảm bảo rằng selectedOption8Image đã được định nghĩa và hợp lệ
 
@@ -189,22 +188,32 @@ option8WhiteImage.onload = () => {
   setLoad(true); // Cập nhật trạng thái tải
 };
 
-  const onResults = async (results) => {
-    if (webcamRef.current.video) {;
+const FRAME_RATE = 30; // Target frame rate (30 FPS)
+let lastDrawTime = 0; // To keep track of the last draw time
+let animationFrameId;
+
+const onResults = async (results) => {
+  const now = Date.now();
+  if (now - lastDrawTime >= 1000 / FRAME_RATE) {
+    lastDrawTime = now;
+
+    if (webcamRef.current.video) {
       if (animationFrameId) {
         cancelAnimationFrame(animationFrameId);
       }
 
+      // Request a new animation frame and call drawCanvas
       animationFrameId = requestAnimationFrame(() => {
         drawCanvas(results);
       });
     }
-  };
+  }
+};
 
   const drawCanvas = (results) => {
     const img = backgroundRef.current;
-    const videoWidth = isMobile ? 3024 : 1920;
-    const videoHeight = isMobile ? 5332 : 1440;
+    const videoWidth = isMobile ? 720 : 1920;
+    const videoHeight = isMobile ? 1280 : 1440;
 
     // Set canvas dimensions
     canvasRef.current.width = videoWidth;
@@ -214,12 +223,19 @@ option8WhiteImage.onload = () => {
     const canvasCtx = canvasElement.getContext("2d");
 
     // Calculate size for smaller webcam feed (35% of videoWidth and videoHeight)
-    const scaledWidth = isMobile ? videoWidth * 0.55 : videoWidth * 0.35;
+    const scaledWidth = isMobile ? videoWidth * 0.65 : videoWidth * 0.35;
     const scaledHeight = isMobile ? videoHeight * 0.65 : videoHeight * 0.6;
 
     // Set webcam position to center the smaller feed on the canvas
     const xPosition = (videoWidth - scaledWidth) / 2;  // Center horizontally
     const yPosition = (videoHeight - scaledHeight) / 2; // Center vertically
+
+
+    const scaledWidthPeople = isMobile ? videoWidth * 0.65 : videoWidth * 0.35;
+    const scaledHeightPeople = isMobile ? videoHeight * 0.65 : videoHeight * 0.6;
+
+    const xPositionPeople = (videoWidth - scaledWidthPeople) / 2;  // Center horizontally
+    const yPositionPeople = (videoHeight - scaledHeightPeople) / 2; // Center vertically
 
     canvasCtx.save();
     canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
@@ -232,16 +248,16 @@ option8WhiteImage.onload = () => {
       canvasCtx.save();
   
       // Flip the webcam feed horizontally
-      canvasCtx.translate(xPosition + scaledWidth / 2, yPosition + scaledHeight / 2); // Move context to the right by scaledWidth
+      canvasCtx.translate(xPositionPeople + scaledWidthPeople / 2, yPositionPeople + scaledHeightPeople / 2); // Move context to the right by scaledWidth
       canvasCtx.scale(-1, 1); // Flip the context horizontally
   
       // Draw the flipped webcam feed in a small rectangle
-      canvasCtx.drawImage(results.image, -scaledWidth / 2, -scaledHeight / 2, scaledWidth, scaledHeight);
+      canvasCtx.drawImage(results.image, -scaledWidthPeople / 2, -scaledHeightPeople / 2, scaledWidthPeople, scaledHeightPeople);
   
       // Only overwrite existing pixels for the segmentation mask
       canvasCtx.globalCompositeOperation = 'destination-atop';
       // Draw the flipped segmentation mask
-      canvasCtx.drawImage(results.segmentationMask, -scaledWidth / 2, -scaledHeight / 2, scaledWidth, scaledHeight);
+      canvasCtx.drawImage(results.segmentationMask, -scaledWidthPeople / 2, -scaledHeightPeople / 2, scaledWidthPeople, scaledHeightPeople);
   
       // Reset transformation for drawing the background
       canvasCtx.setTransform(1, 0, 0, 1, 0, 0);
@@ -257,14 +273,14 @@ option8WhiteImage.onload = () => {
       const scaleNumberMoblie = isMobile ? 10 : 50;
 
       // Vẽ khung bên trái và bên phải
-      canvasCtx.lineWidth = 20;  // Đặt độ dày cho cạnh bên
-      canvasCtx.strokeRect(xPosition - 5, yPosition -scaleNumberMoblie, 10, scaledHeight + scaleNumberMoblie);  // Vẽ cạnh bên trái
-      canvasCtx.strokeRect(xPosition + scaledWidth - 5, yPosition - scaleNumberMoblie, 10, scaledHeight + scaleNumberMoblie);  // Vẽ cạnh bên phải
+      canvasCtx.lineWidth = 5;  // Đặt độ dày cho cạnh bên
+      canvasCtx.strokeRect(xPosition - 1.25, yPosition -scaleNumberMoblie, 2.5, scaledHeight + scaleNumberMoblie);  // Vẽ cạnh bên trái
+      canvasCtx.strokeRect(xPosition + scaledWidth - 1.25, yPosition - scaleNumberMoblie , 2.5, scaledHeight + scaleNumberMoblie);  // Vẽ cạnh bên phải
       
       // Vẽ khung trên và dưới
-      canvasCtx.lineWidth = 30;  // Đặt độ dày cho cạnh trên và dưới
-      canvasCtx.strokeRect(xPosition, yPosition - 30 -scaleNumberMoblie, scaledWidth, 30);  // Vẽ cạnh trên
-      canvasCtx.strokeRect(xPosition, yPosition + scaledHeight, scaledWidth, 30);  // Vẽ cạnh dưới
+      canvasCtx.lineWidth = 7.5;  // Đặt độ dày cho cạnh trên và dưới
+      canvasCtx.strokeRect(xPosition, yPosition - 7.5 -scaleNumberMoblie , scaledWidth, 7.5);  // Vẽ cạnh trên
+      canvasCtx.strokeRect(xPosition, yPosition + scaledHeight, scaledWidth, 7.5);  // Vẽ cạnh dưới
       // canvasCtx.restore();
       // Draw option8WhiteImage
       drawOption8Image(canvasCtx, xPosition, yPosition, scaledHeight);
@@ -275,15 +291,15 @@ option8WhiteImage.onload = () => {
   
   
   const drawOption8Image = (canvasCtx, xPosition, yPosition, scaledHeight) => {
-    const scaleNumberMoblie = isMobile ? -2920 : -100;
-    const scaleNumberCarMoblie = isMobile ? 3 : 1.35;
+    const scaleNumberMoblie = isMobile ? -700 : -100;
+    const scaleNumberCarMoblie = isMobile ? 0.7 : 1.35;
     if (option8WhiteImage.complete) {
       const imgWidth = option8WhiteImage.width * scaleNumberCarMoblie;
       const imgHeight = option8WhiteImage.height * scaleNumberCarMoblie;
       canvasCtx.drawImage(
         option8WhiteImage,
-        yPosition + scaledHeight + scaleNumberMoblie,
-        isMobile ? xPosition + 3300 : xPosition + 320,
+        isMobile ? yPosition + scaledHeight + scaleNumberMoblie : yPosition + scaledHeight + scaleNumberMoblie ,
+        isMobile ? xPosition + 850 : xPosition + 320,
         imgWidth,
         imgHeight);
     }
@@ -315,8 +331,8 @@ option8WhiteImage.onload = () => {
               console.error("Error sending image to selfie segmentation:", error);
             }
           },
-          width: 1920,
-          height: 1440
+          width: isMobile ? 1920 : 1920,
+          height: isMobile ? 1440 : 1440
         });
 
         camera.start();
@@ -335,16 +351,16 @@ option8WhiteImage.onload = () => {
         const img = document.querySelector('.background-image-type-of-car');
         
         if (img) {
-            canvas.width = 1920;
-            canvas.height = 1440;
-            const videoWidth = 1920;
-            const videoHeight = 1440;
-            const scaledWidth = videoWidth * 0.35;
-            const scaledHeight = isMobile ? videoHeight * 0.55 : videoHeight * 0.6;
+            canvas.width = isMobile ? 3024 : 1920;
+            canvas.height = isMobile ? 5332 : 1440;
+            const videoWidth = isMobile ? 3024 : 1920;
+            const videoHeight = isMobile ? 5332 : 1440;
+            const scaledWidth = isMobile ? videoWidth * 0.55 : videoWidth * 0.35;
+            const scaledHeight = isMobile ? videoHeight * 0.65 : videoHeight * 0.6;
             const xPosition = (videoWidth - scaledWidth) / 2;  // Center horizontally
             const yPosition = (videoHeight - scaledHeight) / 2; // Center vertically
             const scaleNumberMoblie = isMobile ? 10 : 50;
-            const scaleNumberCarMoblie = isMobile ? 1.35 : 1.35;
+            const scaleNumberCarMoblie = isMobile ? 3 : 1.35;
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             // Đặt chế độ kết hợp để vẽ khung
@@ -352,17 +368,17 @@ option8WhiteImage.onload = () => {
             ctx.strokeStyle = 'white';  // Đặt màu khung là trắng
 
             // Vẽ khung bên trái và bên phải
-            ctx.lineWidth = 10;  // Đặt độ dày cho cạnh bên
-            ctx.strokeRect(xPosition - 2.5, yPosition -scaleNumberMoblie, 5, scaledHeight + scaleNumberMoblie);  // Vẽ cạnh bên trái
-            ctx.strokeRect(xPosition + scaledWidth - 2.5, yPosition - scaleNumberMoblie, 5, scaledHeight + scaleNumberMoblie);  // Vẽ cạnh bên phải
+            ctx.lineWidth = 20;  // Đặt độ dày cho cạnh bên
+            ctx.strokeRect(xPosition - 5, yPosition -scaleNumberMoblie, 10, scaledHeight + scaleNumberMoblie);  // Vẽ cạnh bên trái
+            ctx.strokeRect(xPosition + scaledWidth - 5, yPosition - scaleNumberMoblie, 10, scaledHeight + scaleNumberMoblie);  // Vẽ cạnh bên phải
       
             // Vẽ khung trên và dưới
-            ctx.lineWidth = 15;  // Đặt độ dày cho cạnh trên và dưới
-            ctx.strokeRect(xPosition, yPosition - 15 -scaleNumberMoblie, scaledWidth, 15);  // Vẽ cạnh trên
-            ctx.strokeRect(xPosition, yPosition + scaledHeight, scaledWidth, 15);  // Vẽ cạnh dưới
+            ctx.lineWidth = 30;  // Đặt độ dày cho cạnh trên và dưới
+            ctx.strokeRect(xPosition, yPosition - 30 -scaleNumberMoblie, scaledWidth, 30);  // Vẽ cạnh trên
+            ctx.strokeRect(xPosition, yPosition + scaledHeight, scaledWidth, 30);  // Vẽ cạnh dưới
       
             // {{ edit_1 }}: Draw the option8White image diagonally at the corner
-            const scaleNumberOption = isMobile ? -20 : -100;
+            const scaleNumberOption = isMobile ? -2920 : -100;
             const option8WhiteImage = new Image();
             option8WhiteImage.src = selectedOption8Image; // Ensure option8White is defined in your imports
             option8WhiteImage.onload = () => {
@@ -370,23 +386,16 @@ option8WhiteImage.onload = () => {
               const imgHeight = option8WhiteImage.height * scaleNumberCarMoblie;
               ctx.drawImage(
                 option8WhiteImage,
-                yPosition + scaledHeight + scaleNumberOption,
-                isMobile ? xPosition + 320 : xPosition + 320,
+                isMobile ? yPosition + scaledHeight + scaleNumberOption : yPosition + scaledHeight + scaleNumberOption -200 ,
+                isMobile ? xPosition + 3200 : xPosition + 320,
                 imgWidth,
-                imgHeight);
+                isMobile ? imgHeight + 200 : imgHeight);
             };
         }
     }
   }, [backgroundImage, isWebcamOpen, selectedOption8Image]);
 
   return (
-    <div className="layout">
-      <div className="content">
-      {(!isWebcamOpen || !isMobile) && (
-        <div className="logo-container">
-          <img src={logo} alt="ISUZU LIFESTYLE" className="logo" />
-        </div>
-      )}
     <div className="type-of-car">
       <Button 
         variant="contained" 
@@ -414,7 +423,7 @@ option8WhiteImage.onload = () => {
       <div
         className="car-image-container" 
         ref={carImageContainerRef}
-        style={{ aspectRatio: !isWebcamOpen ? '16/12' : 'auto', height: (isWebcamOpen && isMobile) ? '65vh' : 'auto' }}
+        style={{ aspectRatio: (!isWebcamOpen && !isMobile) ? '16/12' : 'auto', height: (!isWebcamOpen && !isMobile) ? 'auto' : 'auto' }}
       > 
         {isWebcamOpen ? (
           <div >
@@ -463,13 +472,6 @@ option8WhiteImage.onload = () => {
         </Button>
       </Box>
       {isLoading && <div className="loading-overlay">Đang xử lý...</div>}
-    </div>
-    </div>
-    {(!isWebcamOpen || !isMobile) && (
-      <div className="background-image">
-        <img src={imageBackground} alt="Isuzu background" />
-      </div>
-    )}
     </div>
   );
 }

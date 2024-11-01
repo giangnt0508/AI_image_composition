@@ -8,12 +8,12 @@ function Layout({ children }) {
     <div className="layout">
       <div className="content">
         <div className="logo-container">
-          <img src={logo} alt="ISUZU LIFESTYLE" className="logo" />
+          {/* <img src={logo} alt="ISUZU LIFESTYLE" className="logo" /> */}
         </div>
           {children}
       </div>
       <div className="background-image">
-        <img src={imageBackground} alt="Isuzu background" />
+        {/* <img src={imageBackground} alt="Isuzu background" /> */}
       </div>
     </div>
   );
